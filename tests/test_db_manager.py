@@ -41,6 +41,40 @@ class DatabaseManagerContractTests(unittest.TestCase):
             finally:
                 conn.close()
 
+    def test_save_to_db_ignores_same_product_across_new_crawl_timestamps(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            db_path = os.path.join(tmpdir, "shopify_intelligence.db")
+            conn = init_db(db_path=db_path)
+
+            try:
+                first_record = {
+                    "store_url": "https://example.com",
+                    "crawl_timestamp": "2026-08-07T00:00:00+00:00",
+                    "product_id": "1001",
+                    "product_title": "Example Product",
+                    "variant_id": "2001",
+                    "sku": "SKU-1",
+                    "price": 19.99,
+                    "discount_spread": 2.5,
+                    "inventory_quantity": 10,
+                    "available": True,
+                }
+                second_record = dict(first_record)
+                second_record["crawl_timestamp"] = "2026-08-08T00:00:00+00:00"
+                second_record["price"] = 29.99
+
+                inserted = save_to_db([first_record], db_path=db_path)
+                self.assertEqual(inserted, 1)
+
+                inserted_again = save_to_db([second_record], db_path=db_path)
+                self.assertEqual(inserted_again, 0)
+
+                cursor = conn.cursor()
+                cursor.execute("SELECT COUNT(*) FROM product_snapshots")
+                self.assertEqual(cursor.fetchone()[0], 1)
+            finally:
+                conn.close()
+
 
 if __name__ == "__main__":
     unittest.main()

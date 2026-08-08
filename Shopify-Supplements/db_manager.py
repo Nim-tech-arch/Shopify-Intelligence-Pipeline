@@ -29,47 +29,116 @@ def init_db(db_path: str | Path | None = None) -> sqlite3.Connection:
             price REAL,
             discount_spread REAL,
             inventory_quantity INTEGER,
-            available BOOLEAN,
-            UNIQUE(store_url, crawl_timestamp, product_id, variant_id)
+            available BOOLEAN
         )
+        """
+    )
+
+    cursor.execute(
+        """
+        DELETE FROM product_snapshots
+        WHERE id IN (
+            SELECT id
+            FROM (
+                SELECT id,
+                       ROW_NUMBER() OVER (
+                           PARTITION BY store_url, product_id, COALESCE(variant_id, '')
+                           ORDER BY crawl_timestamp DESC, id DESC
+                       ) AS row_num
+                FROM product_snapshots
+            ) AS ranked
+            WHERE row_num > 1
+        )
+        """
+    )
+    cursor.execute(
+        """
+        CREATE UNIQUE INDEX IF NOT EXISTS idx_product_snapshots_identity
+        ON product_snapshots(store_url, product_id, COALESCE(variant_id, ''))
         """
     )
     conn.commit()
     return conn
 
 
+def _record_identity(record: dict[str, Any]) -> tuple[str, str, str]:
+    """Return a stable identity for a product snapshot across pipeline runs."""
+    return (
+        str(record.get("store_url") or ""),
+        str(record.get("product_id") or ""),
+        str(record.get("variant_id") or ""),
+    )
+
+
 def save_to_db(records: list[dict[str, Any]], db_path: str | Path | None = None) -> int:
-    """Persist records into SQLite and skip duplicates based on a unique composite key."""
+    """Persist records into SQLite and avoid duplicate rows across reruns."""
     if not records:
         return 0
 
     conn = init_db(db_path)
     cursor = conn.cursor()
     inserted_count = 0
+    seen_identities: set[tuple[str, str, str]] = set()
 
     for record in records:
+        identity = _record_identity(record)
+        if identity in seen_identities:
+            continue
+        seen_identities.add(identity)
+
         try:
-            cursor.execute(
+            existing_row = cursor.execute(
                 """
-                INSERT OR IGNORE INTO product_snapshots (
-                    store_url, crawl_timestamp, product_id, product_title, variant_id,
-                    sku, price, discount_spread, inventory_quantity, available
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                SELECT 1
+                FROM product_snapshots
+                WHERE store_url = ? AND product_id = ? AND COALESCE(variant_id, '') = ?
+                LIMIT 1
                 """,
-                (
-                    record.get("store_url"),
-                    record.get("crawl_timestamp"),
-                    record.get("product_id"),
-                    record.get("product_title"),
-                    record.get("variant_id"),
-                    record.get("sku"),
-                    record.get("price"),
-                    record.get("discount_spread"),
-                    record.get("inventory_quantity"),
-                    bool(record.get("available", False)),
-                ),
-            )
-            if cursor.rowcount > 0:
+                (identity[0], identity[1], identity[2]),
+            ).fetchone()
+
+            if existing_row is not None:
+                cursor.execute(
+                    """
+                    UPDATE product_snapshots
+                    SET crawl_timestamp = ?, product_title = ?, sku = ?, price = ?,
+                        discount_spread = ?, inventory_quantity = ?, available = ?
+                    WHERE store_url = ? AND product_id = ? AND COALESCE(variant_id, '') = ?
+                    """,
+                    (
+                        record.get("crawl_timestamp"),
+                        record.get("product_title"),
+                        record.get("sku"),
+                        record.get("price"),
+                        record.get("discount_spread"),
+                        record.get("inventory_quantity"),
+                        bool(record.get("available", False)),
+                        identity[0],
+                        identity[1],
+                        identity[2],
+                    ),
+                )
+            else:
+                cursor.execute(
+                    """
+                    INSERT INTO product_snapshots (
+                        store_url, crawl_timestamp, product_id, product_title, variant_id,
+                        sku, price, discount_spread, inventory_quantity, available
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    """,
+                    (
+                        record.get("store_url"),
+                        record.get("crawl_timestamp"),
+                        record.get("product_id"),
+                        record.get("product_title"),
+                        record.get("variant_id"),
+                        record.get("sku"),
+                        record.get("price"),
+                        record.get("discount_spread"),
+                        record.get("inventory_quantity"),
+                        bool(record.get("available", False)),
+                    ),
+                )
                 inserted_count += 1
         except sqlite3.Error:
             continue

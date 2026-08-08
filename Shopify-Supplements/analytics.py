@@ -37,9 +37,22 @@ def get_market_insights(db_path: str | Path | None = None) -> dict[str, list[dic
 
     try:
         top_discounted_query = """
-            SELECT store_url, product_title, price, ROUND(discount_spread, 2) AS discount_spread
-            FROM product_snapshots
-            WHERE discount_spread > 0
+            WITH RankedDiscounts AS (
+                SELECT
+                    store_url,
+                    product_title,
+                    price,
+                    ROUND(discount_spread, 2) AS discount_spread,
+                    ROW_NUMBER() OVER (
+                        PARTITION BY product_title
+                        ORDER BY discount_spread DESC, price DESC
+                    ) AS rn
+                FROM product_snapshots
+                WHERE discount_spread > 0
+            )
+            SELECT store_url, product_title, price, discount_spread
+            FROM RankedDiscounts
+            WHERE rn = 1
             ORDER BY discount_spread DESC, price DESC
             LIMIT 10
         """
