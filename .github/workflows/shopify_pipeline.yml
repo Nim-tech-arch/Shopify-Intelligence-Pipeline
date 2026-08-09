@@ -24,9 +24,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install httpx pandas
 
-      - - name: Execute Pipeline
-     run: |
-       python Shopify_supplements_enrichment/External_enrichment/external_enricher.py
+      - name: Execute Pipeline
+        run: |
+          python Shopify_supplements_enrichment/External_enrichment/external_enricher.py
 
       - name: Commit & Push SQLite Database Changes
         env:
@@ -34,5 +34,5 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add shopify_supplements_enrichment/ || true
+          git add Shopify_supplements_enrichment/ || true
           git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update Shopify intelligence snapshot [skip ci]" && git push)
