@@ -1,0 +1,56 @@
+[
+    {
+        "store_url":"https:\/\/ghostlifestyle.com",
+        "brand_name":"Ghost Lifestyle",
+        "brand_category":"Lifestyle & Energy",
+        "headquarters_country":"United States",
+        "estimated_market_segment":"Lifestyle \/ Gen-Z",
+        "social_following_total":1800000,
+        "brand_reputation_index":8.66
+    },
+    {
+        "store_url":"https:\/\/gorillamind.com",
+        "brand_name":"Unknown Brand",
+        "brand_category":"Supplement Retail",
+        "headquarters_country":"Unknown",
+        "estimated_market_segment":"General Supplement",
+        "social_following_total":0,
+        "brand_reputation_index":9.46
+    },
+    {
+        "store_url":"https:\/\/kaged.com",
+        "brand_name":"Kaged",
+        "brand_category":"Performance & Endurance",
+        "headquarters_country":"United States",
+        "estimated_market_segment":"Mid-to-High Performance",
+        "social_following_total":620000,
+        "brand_reputation_index":8.72
+    },
+    {
+        "store_url":"https:\/\/pescience.com",
+        "brand_name":"Unknown Brand",
+        "brand_category":"Supplement Retail",
+        "headquarters_country":"Unknown",
+        "estimated_market_segment":"General Supplement",
+        "social_following_total":0,
+        "brand_reputation_index":9.37
+    },
+    {
+        "store_url":"https:\/\/www.cellucor.com",
+        "brand_name":"Cellucor",
+        "brand_category":"Legacy Sports Nutrition",
+        "headquarters_country":"United States",
+        "estimated_market_segment":"Mass Market \/ Mainstream",
+        "social_following_total":1200000,
+        "brand_reputation_index":8.51
+    },
+    {
+        "store_url":"https:\/\/www.transparentlabs.com",
+        "brand_name":"Transparent Labs",
+        "brand_category":"Science-Backed Supplements",
+        "headquarters_country":"United States",
+        "estimated_market_segment":"Premium \/ Clinical",
+        "social_following_total":450000,
+        "brand_reputation_index":8.86
+    }
+]

@@ -1,10 +1,12 @@
-# E-commerce-Intelligence-Pipeline/shopify/config.py
-
 TARGET_STORES = [
     "https://www.transparentlabs.com",
     "https://kaged.com",
     "https://ghostlifestyle.com",
     "https://www.cellucor.com",
+    "https://legionathletics.com",
+    "https://nootropicsdepot.com",
+    "https://gorillamind.com",
+    "https://pescience.com",
 ]
 
 STOREFRONT_TOKENS = {
@@ -12,6 +14,10 @@ STOREFRONT_TOKENS = {
     "https://kaged.com": "",
     "https://ghostlifestyle.com": "",
     "https://www.cellucor.com": "",
+    "https://legionathletics.com": "",
+    "https://nootropicsdepot.com": "",
+    "https://gorillamind.com": "",
+    "https://pescience.com": "",
 }
 
 # Alias maps for cross-module compatibility
