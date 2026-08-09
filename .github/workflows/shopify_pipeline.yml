@@ -24,9 +24,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install httpx pandas
 
-      - name: Execute Pipeline
-        run: |
-          python shopify_supplements_enrichment/external_enrichment/external_enricher.py
+      - - name: Execute Pipeline
+     run: |
+       python Shopify_supplements_enrichment/External_enrichment/external_enricher.py
 
       - name: Commit & Push SQLite Database Changes
         env:
