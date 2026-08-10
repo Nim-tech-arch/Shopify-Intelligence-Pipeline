@@ -1,4 +1,6 @@
 SHOPIFY INTELLIGENCE PIPELINE 
+
+
 From fragmented Shopify storefront activity to decision-ready competitive intelligence
 
 The Shopify Intelligence Pipeline is an end-to-end data engineering and intelligence platform designed to transform fragmented, fast-changing Shopify storefront activity into historical, explainable, decision-ready intelligence.
