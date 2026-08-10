@@ -1,77 +1,140 @@
-SHOPIFY INTELLIGENCE PIPELINE 
+# 🚀 Shopify Intelligence Pipeline
 
+## From Shopify Storefront Data to Competitive & Market Intelligence
 
-From fragmented Shopify storefront activity to decision-ready competitive intelligence
+The **Shopify Intelligence Pipeline** is an end-to-end data engineering system for collecting, validating, standardizing, enriching, and transforming fragmented Shopify storefront activity into historical, competitive, and market intelligence.
 
-The Shopify Intelligence Pipeline is an end-to-end data engineering and intelligence platform designed to transform fragmented, fast-changing Shopify storefront activity into historical, explainable, decision-ready intelligence.
+The initial vertical is **supplements**, where brands compete continuously on:
 
-The initial vertical is supplements, where brands compete continuously across:
+- Product assortment
+- Pricing
+- Discounts
+- Promotions
+- Availability
+- Product launches
+- Customer perception
+- Brand positioning
+- Search visibility
+- Advertising activity
+- Competitive positioning
 
-pricing
-discounts
-promotions
-product assortment
-product launches
-availability
-competitive positioning
-customer perception
-search visibility
-social activity
-advertising activity
-geographic pricing
-market trends
+The business problem is not a lack of product data.
 
-The problem is not a lack of e-commerce data.
+The problem is that **competitive signals are fragmented across storefronts and external intelligence sources, change continuously, and are rarely available as a unified historical dataset.**
 
-The problem is that competitive signals are fragmented, ephemeral, difficult to compare historically, and disconnected from the business decisions they are supposed to support.
+A competitor can change a price, launch a product, remove an SKU, run a promotion, gain search visibility, increase advertising activity, or change its market positioning without creating a structured record that another business can easily analyze.
 
-A competitor can change a price, launch a product, remove an SKU, run a promotion, experience an availability event, increase advertising activity, or change its market positioning without producing a clean analytical record.
+This pipeline creates that record.
 
-This platform creates that record.
+> **The objective is not to scrape Shopify stores. The objective is to build a reliable intelligence system that converts fragmented e-commerce activity into historical, explainable, decision-ready data.**
 
-The objective is not to scrape Shopify stores. The objective is to build a reliable intelligence system that converts fragmented e-commerce activity into historical, explainable, decision-ready data — and ultimately delivers that intelligence to the businesses that need to act on it.
+---
 
-The Business Problem
+# 🎯 The Problem
 
-A supplement brand monitoring competitors manually can answer:
+A supplement brand monitoring competitors manually faces several problems:
+
+```text
+Competitor A ──┐
+Competitor B ──┤
+Competitor C ──┼──► Shopify storefronts
+Competitor D ──┤
+Competitor E ──┘
+                │
+                ▼
+        Manual observation
+                │
+                ▼
+        No reliable history
+                │
+                ▼
+       Difficult to measure change
+                │
+                ▼
+      Limited market context
+
+A single storefront visit answers:
 
 What is this competitor selling right now?
 
-But it struggles to answer:
+It does not answer:
 
-What changed?
-
-When did it change?
-
-How significant was the change?
-
-Which competitors are becoming more aggressive?
-
+What changed since yesterday?
+Which competitors are becoming more aggressive with pricing?
 Which products are repeatedly discounted?
-
-Which competitors are expanding their assortment?
-
+Which brands are expanding their assortment?
 Which products are becoming unavailable?
-
-Which brands have stronger customer perception?
-
-Which competitors are gaining search or social attention?
-
 Which products have similar competitive positioning?
+Which brands are generating stronger customer sentiment?
+Which competitors are gaining search, social, or advertising activity?
+How are prices positioned across markets?
+What market trends are emerging?
 
-How are competitors positioning prices across markets?
+The pipeline is designed to answer these questions systematically.
 
-What market patterns are emerging?
+💼 Business Objective
 
-More importantly:
+The system follows a simple principle:
 
-What should the business do about it?
+Business Question
+       ↓
+Data Signal
+       ↓
+Transformation
+       ↓
+Enrichment
+       ↓
+Intelligence Product
+       ↓
+Decision
+Target Users
+🏪 DTC & Supplement Brands
 
-That is the problem this architecture is designed to solve.
+Need to understand:
 
-The Core Architecture
+Competitor pricing
+Product launches
+Promotions
+Assortment changes
+Availability
+Customer sentiment
+Competitor positioning
+Market movement
+📊 E-commerce & Merchandising Teams
 
-The system has evolved from a storefront crawler into a layered intelligence platform:
+Need to understand:
+
+Which categories are expanding
+Which products are being introduced
+How competitors position products
+Where assortment gaps exist
+How prices compare
+Where promotional pressure is increasing
+🔎 Competitive Intelligence Teams
+
+Need to understand:
+
+What competitors changed
+How frequently they change it
+Which competitors are becoming more aggressive
+How competitors compare
+Where the market is moving
+📈 Product & Market Researchers
+
+Need structured evidence to identify:
+
+Emerging products
+Category activity
+Pricing movements
+Competitive patterns
+Customer perception
+Market trends
+
+The pipeline therefore treats scraped data as an input to intelligence, not the final product.
+
+🏗️ Architecture
+
+The system has evolved from a Shopify crawler into a layered intelligence platform:
 
                          SHOPIFY STOREFRONTS
                                   │
@@ -79,10 +142,9 @@ The system has evolved from a storefront crawler into a layered intelligence pla
                          ┌──────────────────┐
                          │    INGESTION     │
                          │                  │
-                         │ Async collection │
-                         │ GraphQL          │
-                         │ Catalog fallback │
-                         │ Retries          │
+                         │ Async HTTP/2     │
+                         │ Catalog extraction│
+                         │ Retries / fallback│
                          └────────┬─────────┘
                                   │
                                   ▼
@@ -91,33 +153,34 @@ The system has evolved from a storefront crawler into a layered intelligence pla
                          │                  │
                          │ Raw observations │
                          │ Crawl metadata   │
-                         │ Source evidence  │
+                         │ Source metadata  │
                          └────────┬─────────┘
                                   │
                                   ▼
                          ┌──────────────────┐
                          │      SILVER      │
                          │                  │
-                         │ Canonical model  │
-                         │ Validation       │
-                         │ Deduplication    │
-                         │ Historical state │
+                         │ Canonical products│
+                         │ Variants         │
+                         │ Pricing          │
+                         │ Availability     │
+                         │ Historical records│
                          └────────┬─────────┘
                                   │
                                   ▼
                     ┌─────────────────────────────┐
                     │         ENRICHMENT           │
                     │                             │
-                    │ Internal product signals   │
-                    │ External market context    │
+                    │ Internal-derived signals   │
+                    │ External intelligence      │
                     │                             │
                     │ Reviews / Sentiment         │
                     │ Brand Reputation            │
                     │ SEO / Search                │
                     │ Social Engagement           │
                     │ Advertising                 │
-                    │ Geographic Pricing          │
-                    │ Competitor Similarity       │
+                    │ Geographic Arbitrage        │
+                    │ Competitor Benchmarks       │
                     │ Market Trends               │
                     └──────────────┬──────────────┘
                                    │
@@ -126,26 +189,23 @@ The system has evolved from a storefront crawler into a layered intelligence pla
                          │       GOLD       │
                          │                  │
                          │ Pricing          │
-                         │ Discounts        │
+                         │ Promotions       │
+                         │ Product launches │
                          │ Inventory        │
-                         │ Competition      │
-                         │ Product activity │
+                         │ Assortment       │
+                         │ Competitors      │
+                         │ Market intelligence│
                          └────────┬─────────┘
                                   │
-                                  ▼
-                         ┌──────────────────┐
-                         │     SERVING      │
-                         │                  │
-                         │ Tenant APIs      │
-                         │ Webhooks         │
-                         │ Alerts           │
-                         │ Operator plane   │
-                         └────────┬─────────┘
-                                  │
+                    ┌─────────────┼─────────────┐
+                    ▼             ▼             ▼
+                Dashboard       API          Alerts
+                    │             │             │
+                    └─────────────┼─────────────┘
                                   ▼
                          BUSINESS DECISIONS
 
-The architectural contract is:
+The platform is organized around six responsibilities:
 
 INGESTION
     ↓
@@ -158,78 +218,46 @@ ENRICHMENT
 GOLD
     ↓
 SERVING
-    ↓
-ACTION
 
-Bronze preserves evidence. Silver creates trust. Enrichment adds context. Gold creates intelligence. Serving delivers that intelligence.
+Bronze preserves evidence. Silver creates trust. Enrichment adds context. Gold creates intelligence. Serving turns intelligence into action.
 
-Architectural Separation of Concerns
+⚙️ Current Implementation
 
-A central design decision in this project is separating generation of intelligence from delivery of intelligence.
-
-These are different engineering problems.
-
-Intelligence Generation
-Bronze
-   ↓
-Silver
-   ↓
-Enrichment
-   ↓
-Gold
-
-This answers:
-
-What intelligence should exist?
-
-Intelligence Serving
-Gold
-   ↓
-Serving API
-   ↓
-Merchant
-
-This answers:
-
-How does a customer consume that intelligence?
-
-Event Delivery
-Gold / Business Event
-        ↓
-Event Envelope
-        ↓
-Webhook Dispatcher
-        ↓
-Merchant Endpoint
-
-This answers:
-
-How does the customer receive a time-sensitive change?
-
-Keeping these responsibilities separate prevents the analytical pipeline from becoming tightly coupled to customer delivery infrastructure.
-
-Current Monitored Domain
-
-The initial implementation focuses on the supplement e-commerce market.
-
-Current monitored merchants include:
+The current pipeline monitors selected Shopify supplement storefronts, including:
 
 Transparent Labs
 Kaged
 GHOST Lifestyle
 Cellucor
-Gorilla Mind
-PE Science
 
-The architecture is intentionally designed so that the underlying intelligence model can eventually expand beyond supplements into broader e-commerce categories.
+The ingestion engine:
 
-Bronze — Source Evidence
+Crawls multiple storefronts concurrently
+Uses asynchronous HTTP requests
+Attempts Shopify Storefront GraphQL where configured
+Falls back to public Shopify catalog endpoints
+Extracts products and variants
+Captures pricing and availability signals
+Normalizes heterogeneous Shopify responses
+Persists historical observations
+Validates and deduplicates records
+Produces analytical outputs
 
-Bronze represents what the system actually observed.
+The pipeline has now progressed beyond ingestion into:
 
-Its responsibility is preservation and traceability, not interpretation.
+Bronze source preservation
+Silver canonicalization
+Internal pricing enrichment
+External intelligence enrichment
+Gold intelligence modeling
+Integration-ready serving architecture
+🥉 Bronze — Source Evidence
 
-Typical source metadata includes:
+Bronze represents what the pipeline observed from Shopify storefronts.
+
+Its responsibility is preservation and traceability, not business interpretation.
+
+Typical metadata includes:
 
 store_url
 crawl_timestamp
@@ -241,107 +269,126 @@ extraction_status
 
 Bronze exists so downstream transformations can be:
 
-reproduced
-audited
-debugged
-reprocessed
-compared against source observations
-
-The principle is:
+Reproduced
+Audited
+Debugged
+Reprocessed
+Compared against source observations
 
 Never destroy source evidence merely because a cleaner representation exists downstream.
 
-Silver — Canonical E-commerce Dataset
+🥈 Silver — Canonical E-commerce Dataset
 
-Silver is the trust boundary between raw acquisition and intelligence generation.
-
-The transformation is orchestrated through:
+The Silver layer is implemented through:
 
 silver_supplements_orchestrator.py
 
-The pipeline no longer follows:
+The architecture no longer moves directly from:
 
-Scrape
-  ↓
-Analytics
+scraped data
+      ↓
+analytics
 
 Instead:
 
 Bronze
-  ↓
+   ↓
 Silver
-  ↓
+   ↓
 Enrichment
-  ↓
+   ↓
 Gold
 
-Silver is responsible for:
+The Silver orchestrator is responsible for:
 
-validation
-normalization
-type standardization
-canonical identity
-deduplication
-record integrity
-historical representation
+Validation
+Normalization
+Type standardization
+Record integrity
+Deduplication
+Canonical output
 
 Conceptually:
 
-                    BRONZE
-                       │
-        ┌──────────────┼──────────────┐
-        ▼              ▼              ▼
-      Raw Data      Metadata       Snapshots
-        │              │              │
-        └──────────────┼──────────────┘
-                       ▼
-        silver_supplements_orchestrator.py
-                       │
-             ┌─────────┼─────────┐
-             ▼         ▼         ▼
-        Validation  Identity  Normalization
-             │         │         │
-             └─────────┼─────────┘
-                       ▼
-                     SILVER
+Bronze
+  │
+  ├── Raw product records
+  ├── Raw variants
+  ├── Pricing observations
+  └── Crawl metadata
+          │
+          ▼
+silver_supplements_orchestrator.py
+          │
+          ├── Validation
+          ├── Normalization
+          ├── Type standardization
+          ├── Record integrity
+          ├── Deduplication
+          └── Canonical output
+          │
+          ▼
+     Silver Dataset
 
-Silver establishes the canonical analytical contract used by everything downstream.
+Silver creates the stable analytical contract between ingestion and intelligence.
 
-Data Integrity
+🔐 Data Integrity
 
-During development, a duplicate-record issue was discovered in downstream analytical outputs.
+A major data-quality issue encountered during development was duplicate records in downstream analytical outputs.
 
-The problem was fixed during pipeline hardening.
+The issue was identified and fixed during pipeline hardening.
 
-This is not a cosmetic correction.
+This matters because duplicate observations can silently corrupt:
 
-Duplicate observations can distort:
-
-product counts
-discount rankings
-pricing statistics
-inventory analysis
-competitor comparisons
-historical trends
-aggregate intelligence
+Product counts
+Discount rankings
+Inventory statistics
+Competitor comparisons
+Historical trends
+Aggregate metrics
 
 The architectural rule is:
 
-A business decision is only as trustworthy as the uniqueness, lineage, and temporal integrity of the data underneath it.
+A downstream analytical result is only as trustworthy as the uniqueness and lineage guarantees of the dataset underneath it.
 
-Therefore:
+Silver therefore acts as the boundary for canonical record identity before enrichment and Gold transformations occur.
 
-Raw evidence
-    ↓
-Canonical identity
-    ↓
-Validated record
-    ↓
-Historical observation
+🧱 Silver Data Model
+Store
+store_id
+store_url
+domain
+crawl_timestamp
+Product
+product_id
+store_id
+title
+handle
+vendor
+product_type
+description
+published_at
+created_at
+updated_at
+Variant
+variant_id
+product_id
+sku
+title
+price
+compare_at_price
+available
+inventory_quantity
+Product Snapshot
+store_id
+product_id
+variant_id
+crawl_timestamp
+price
+compare_at_price
+availability
 
-is established before intelligence products are generated.
-
-Historical Data Is a First-Class Product
+The snapshot concept is critical.
 
 A current product record tells us:
 
@@ -351,39 +398,29 @@ A historical snapshot tells us:
 
 What existed at a particular point in time?
 
-A sequence of observations tells us:
+A sequence of snapshots gives us:
 
 What changed?
 
-The intelligence model therefore follows:
+That transition from:
 
-Snapshot
-   ↓
+State
+  ↓
 History
-   ↓
+  ↓
 Change
-   ↓
-Trend
-   ↓
-Context
-   ↓
+  ↓
 Intelligence
 
-This temporal model is one of the most important foundations of the platform.
+is the foundation of the platform.
 
-Enrichment Layer
+🧠 Enrichment Layer
 
-The enrichment layer adds context around trusted Silver observations.
+The enrichment layer is now an implemented engineering boundary.
 
-It deliberately separates:
+Its responsibility is to transform trusted Silver observations into reusable intelligence vectors.
 
-INTERNAL ENRICHMENT
-        +
-EXTERNAL ENRICHMENT
-        ↓
-ENRICHED INTELLIGENCE
-
-Architecture:
+The architecture separates internal product intelligence from external market context:
 
                          SILVER
                            │
@@ -407,48 +444,44 @@ Architecture:
                            │
                            ▼
                           GOLD
-Internal Pricing Intelligence
+💰 Internal Enrichment
 
-The internal pricing foundation is derived from actual Shopify observations.
+The internal enrichment layer is grounded in real Shopify crawl data.
 
-Current enrichment foundation:
+The primary pricing enrichment asset is:
 
 shopify_supplements_enrichment/
 └── pricing_enrichment/
     └── price_metrics.json
 
-Core fields include:
+The dataset provides the real product foundation used by the enrichment workflow:
 
 sku
 product_title
 store_url
 current_price
 
-The architectural relationship is:
+The enrichment flow is therefore:
 
-Shopify Storefront
+Live Shopify Crawl
        ↓
 Bronze
        ↓
 Silver
        ↓
-Price Metrics
+price_metrics.json
        ↓
-Internal Intelligence
+Internal Enrichment Foundation
 
-This provides an authoritative product and pricing foundation for downstream enrichment.
+External intelligence is anchored to real products and prices observed from monitored Shopify storefronts.
 
-External Intelligence
+🌐 External Intelligence Enrichment
 
 The external enrichment architecture is implemented through:
 
 external_enricher.py
 
-and:
-
-api_clients.py
-
-The enrichment domains are organized as:
+The enrichment orchestrator consumes the internal pricing foundation and coordinates eight intelligence domains.
 
 shopify_supplements_enrichment/
 └── external_enrichment/
@@ -461,13 +494,37 @@ shopify_supplements_enrichment/
     ├── competitor_similarity/
     └── market_trends/
 
-The enrichment framework has been executed across:
+The complete enrichment suite has been executed across:
 
 2,059 base SKUs
 
-External Provider Architecture
+and successfully persisted the resulting intelligence assets.
 
-External intelligence is deliberately decoupled from the enrichment orchestrator.
+🔌 External API Integration Architecture
+
+The external enrichment layer is not hard-coded around one provider.
+
+The project includes:
+
+api_clients.py
+
+which provides a modular gateway for external intelligence integrations.
+
+The architecture is designed to support providers such as:
+
+Apify
+Bright Data
+DataForSEO
+Meta Ad Library
+Other external intelligence providers
+
+The client layer uses:
+
+Environment-driven credential loading
+Modular provider interfaces
+An httpx transport wrapper
+
+Conceptually:
 
                     external_enricher.py
                              │
@@ -480,94 +537,146 @@ External intelligence is deliberately decoupled from the enrichment orchestrator
              │               │               │
              └───────────────┼───────────────┘
                              ▼
-                  External Intelligence
+                    External Intelligence
 
-The client layer provides:
+This separation allows the enrichment orchestration layer to remain independent of individual external providers.
 
-environment-driven credentials
-provider abstraction
-modular API integration
-HTTP transport
-separation between acquisition and enrichment logic
+🧪 External Enrichment Execution
 
-This means the intelligence model does not need to be redesigned every time an external provider changes.
+During integration testing, a Python import-resolution issue was encountered when running the enrichment script directly.
 
-External Intelligence Domains
-Customer Reviews & Sentiment
+The issue originated from sibling-module resolution and relative package imports.
+
+The execution path was corrected by streamlining the import boundary to:
+
+from api_clients import ...
+
+This allows:
+
+external_enricher.py
+
+to execute cleanly from the repository root while retaining the modular API-client architecture.
+
+The complete enrichment suite was then executed through PowerShell.
+
+🌍 External Intelligence Domains
+1. ⭐ Customer Sentiment & Reviews
+
+Output:
+
 external_enrichment/customer_reviews/
 
-Potential intelligence:
+The domain provides structured customer perception signals.
+
+Potential intelligence dimensions include:
 
 rating
 review_count
 positive_sentiment
 negative_sentiment
 review_text
+Business Questions
 
-Business question:
+Which products demonstrate stronger customer sentiment?
 
-How are customers perceiving competing products and brands?
+Which brands show recurring negative feedback?
 
-Brand Reputation & Positioning
+Does customer perception align with pricing or product positioning?
+
+2. 🏷️ Brand Reputation & Positioning
+
+Output:
+
 external_enrichment/brand_reputation/
 
-Potential signals:
+This domain provides brand-level competitive context.
+
+Potential dimensions include:
 
 brand
 reputation_score
 brand_position
 market_presence
+Business Questions
 
-Business question:
+Which brands have stronger market reputation?
 
-How does brand perception relate to competitive positioning?
+How does brand positioning compare with product pricing?
 
-SEO & Search Visibility
+3. 🔎 SEO & Search Visibility
+
+Output:
+
 external_enrichment/seo_search/
 
-Potential signals:
+This domain models search visibility and product-level search activity.
+
+Potential signals include:
 
 primary_keyword
 search_volume
 search_activity
 search_visibility
+Business Questions
 
-Business question:
+Which products are gaining search attention?
 
-Which products and brands are gaining search attention?
+Which categories have stronger search visibility?
 
-Social Engagement
+Which competitors appear more visible in search?
+
+4. 📱 Social Engagement & Viral Buzz
+
+Output:
+
 external_enrichment/social_engagement/
 
-Potential signals:
+Potential signals include:
 
 engagement
 reach
 social_activity
 viral_coefficient
 
-Business question:
+This creates a bridge between storefront activity and external attention.
 
-Which products and brands are generating external attention?
+Storefront Activity
+        +
+Social Activity
+        ↓
+Competitive Attention
+5. 📢 Advertising Intelligence
 
-Advertising Intelligence
+Output:
+
 external_enrichment/ad_intelligence/
 
-Potential signals:
+Potential signals include:
 
 ad_count
 advertising_activity
 product_ad_presence
 competitive_ad_pressure
 
-Business question:
+The external client architecture provides a future path toward live advertising intelligence sources.
 
-Where is competitive promotional pressure increasing?
+Business Questions
 
-Geographic Pricing
+Which competitors are increasing advertising activity?
+
+Which products are receiving paid promotional support?
+
+Is advertising pressure increasing around particular categories?
+
+6. 🌎 Geographical & Currency Arbitrage
+
+Output:
+
 external_enrichment/geographical_arbitrage/
 
-Potential signals:
+This domain establishes a framework for comparing product economics across geographic markets.
+
+Potential signals include:
 
 domestic_price
 uk_price
@@ -575,15 +684,21 @@ eu_price
 regional_price_spread
 currency_effect
 arbitrage_signal
+Business Questions
 
-Business question:
+How does a product's price vary across markets?
 
-How are competitors positioning products across geographic markets?
+Which competitors show larger regional pricing spreads?
 
-Competitor Similarity
+7. 🥊 Cross-Brand Competitor Benchmarks
+
+Output:
+
 external_enrichment/competitor_similarity/
 
-Potential signals:
+This domain moves analysis from individual products toward competitive sets.
+
+Potential signals include:
 
 product_similarity
 competitor_similarity_score
@@ -591,7 +706,7 @@ category_overlap
 price_similarity
 assortment_overlap
 
-Analytical progression:
+The analytical progression becomes:
 
 Product
    ↓
@@ -600,10 +715,15 @@ Similar Products
 Competitive Set
    ↓
 Competitor Benchmark
-Market Trends
+8. 📈 Market Trend Velocities
+
+Output:
+
 external_enrichment/market_trends/
 
-Potential signals:
+This is the highest-level external intelligence domain in the current enrichment framework.
+
+Potential dimensions include:
 
 category_trend
 market_activity
@@ -612,410 +732,346 @@ demand_proxy
 competitive_pressure
 trend_velocity
 
-Business question:
+The goal is to connect product-level observations with broader market movement.
 
-What is happening beyond an individual product or merchant?
+🧾 Enrichment Provenance
 
-Enrichment Provenance
+The enrichment layer follows a strict provenance principle.
 
-The system explicitly distinguishes between different classes of intelligence.
+Not every metric in the enrichment layer has the same origin.
 
-OBSERVED
-   ↓
-Directly observed from source data
+The architecture distinguishes:
 
-DERIVED
-   ↓
-Calculated from trusted observations
+INTERNAL OBSERVATION
+        ↓
+Derived from actual Shopify data
 
-EXTERNAL
-   ↓
-Retrieved from external providers
+EXTERNAL SOURCE
+        ↓
+Retrieved from a production external provider
 
-SIMULATED
-   ↓
-Generated by fallback logic when live
+SIMULATED EXTERNAL
+        ↓
+Fallback intelligence generated when live external
 provider data is unavailable
 
-The verified enrichment execution used the fallback simulation engine to generate and persist all eight enrichment domains across the 2,059-SKU foundation.
+The current verified execution used the fallback simulation engine to successfully generate and persist the eight intelligence domains across all 2,059 base SKUs.
 
-That is an architectural validation step — not a claim that simulated metrics are live market observations.
+This distinction is intentional.
 
-The distinction is critical:
+The pipeline therefore has two capabilities:
 
-A data product must never present simulated intelligence as externally observed intelligence.
+                    EXTERNAL ENRICHMENT
+                            │
+             ┌──────────────┴──────────────┐
+             ▼                             ▼
+       LIVE PROVIDERS                 FALLBACK ENGINE
+             │                             │
+             └──────────────┬──────────────┘
+                            ▼
+                  STANDARDIZED ENRICHMENT
+                            │
+                            ▼
+                           GOLD
 
-Gold — Decision-Ready Data Products
+The fallback engine validates the enrichment architecture; live providers will validate the external data acquisition layer.
 
-Gold is where the architecture changes from data engineering to decision engineering.
+📦 Enrichment Output
 
-Silver asks:
+The verified run successfully processed:
+
+Base SKUs: 2,059
+
+Across eight intelligence domains:
+
+Customer Sentiment & Reviews
+Brand Reputation & Positioning
+SEO & Search Visibility
+Social Engagement & Viral Buzz
+Advertising Intelligence
+Geographical & Currency Arbitrage
+Cross-Brand Competitor Benchmarks
+Market Trend Velocities
+
+The resulting JSON assets are persisted under:
+
+shopify_supplements_enrichment/
+└── external_enrichment/
+    ├── customer_reviews/
+    ├── brand_reputation/
+    ├── seo_search/
+    ├── social_engagement/
+    ├── ad_intelligence/
+    ├── geographical_arbitrage/
+    ├── competitor_similarity/
+    └── market_trends/
+
+These datasets are now ready for downstream aggregation, validation, Gold modeling, visualization, and serving.
+
+🥇 Gold — Decision-Ready Intelligence
+
+Gold is not another copy of Silver.
+
+Silver answers:
 
 What did we observe?
 
-Enrichment asks:
+Enrichment answers:
 
-What context surrounds the observation?
+What additional context surrounds the observation?
 
-Gold asks:
+Gold answers:
 
-What does the evidence mean for a business decision?
+What does the combined evidence mean for a business decision?
 
-Therefore Gold is organized around business questions, not merely source tables.
+The Gold layer is therefore organized around business questions rather than database entities.
 
-Gold Architecture
+gold/
+├── competitive_pricing/
+├── promotion_intelligence/
+├── product_launches/
+├── inventory_intelligence/
+├── assortment_intelligence/
+├── competitor_intelligence/
+└── market_intelligence/
+💵 Gold Product 1 — Competitive Pricing Intelligence
+competitive_pricing/
+├── price_history.parquet
+├── price_changes.parquet
+├── price_position.parquet
+└── pricing_summary.parquet
 
-The current Gold design centers on merchant-specific decision products.
-
-Conceptually:
-
-                         SILVER
-                           +
-                      ENRICHMENT
-                           │
-                           ▼
-                 Canonical Merchant/Product
-                       Feature Layer
-                           │
-          ┌────────────────┼────────────────┐
-          ▼                ▼                ▼
-      Pricing          Inventory        Discounts
-     Intelligence      Intelligence     Intelligence
-          │                │                │
-          └────────────────┼────────────────┘
-                           ▼
-                 Competitive Intelligence
-                           │
-                           ▼
-                          GOLD
-
-The current Gold serving boundary is organized under:
-
-Gold_Lake/
-└── Pricing_Intelligence/
-    └── Shopify_Merchants/
-
-The design principle is:
-
-A Gold dataset should answer a specific customer question and make the resulting decision easier, faster, and more defensible.
-
-Gold Product: Pricing Opportunities
-product_pricing_opportunities/
-
-This product answers:
-
-Where are pricing opportunities or anomalies that a merchant should investigate?
-
-Potential intelligence includes:
+Potential outputs:
 
 current_price
-competitor_price
-price_difference
-relative_price_position
-discount_pressure
-pricing_signal
-
-Serving endpoint:
-
-GET /api/v1/merchants/{merchant_id}/pricing-opportunities
-Gold Product: Inventory Risk
-inventory_risk/
-
-This product answers:
-
-Which products present potential availability or inventory risks?
-
-The system deliberately treats storefront availability as a signal rather than claiming that storefront observations are exact warehouse inventory.
-
-Serving endpoint:
-
-GET /api/v1/merchants/{merchant_id}/inventory-risks
-Gold Product: Discount Opportunities
-discount_opportunities/
-
-This product answers:
-
-Where is promotional or discount activity creating a competitive opportunity or threat?
-
-Potential intelligence:
-
+previous_price
+price_change
 discount_percentage
-competitor_discount
-discount_spread
-promotion_pressure
-discount_signal
-
-Serving endpoint:
-
-GET /api/v1/merchants/{merchant_id}/discount-opportunities
-Gold Product: Competitive Intelligence
-competitive_intelligence/
-
-This product combines multiple competitive dimensions.
-
-Potential inputs include:
-
-pricing
-discounts
-availability
-assortment
-product activity
-customer perception
-search visibility
-social activity
-advertising
-geographic pricing
-competitor similarity
-market trends
-
-Serving endpoint:
-
-GET /api/v1/merchants/{merchant_id}/competitive-intelligence
-
-This represents the transition from individual metrics to merchant-level competitive intelligence.
-
-Merchant-Centric Gold Architecture
-
-The serving model is intentionally merchant-centric.
-
-Instead of exposing a generic dataset and forcing customers to understand the underlying schema:
-
-Raw Dataset
-     ↓
-Customer must interpret it
-
-the architecture moves toward:
-
-Merchant
-   ↓
+competitor_median_price
+competitor_min_price
+competitor_max_price
+relative_price_position
+regional_price_spread
 Business Question
+
+Are competitors becoming more aggressive on price?
+
+🏷️ Gold Product 2 — Promotion Intelligence
+promotion_intelligence/
+├── active_promotions.parquet
+├── promotion_history.parquet
+├── discount_benchmarks.parquet
+└── promotion_frequency.parquet
+Business Questions
+
+Who discounts most aggressively?
+
+Which products are repeatedly promoted?
+
+Is promotional pressure increasing?
+
+🚀 Gold Product 3 — Product Launch Intelligence
+product_launches/
+├── new_products.parquet
+├── discontinued_products.parquet
+└── category_expansion.parquet
+Business Question
+
+What are competitors launching?
+
+🧩 Gold Product 4 — Assortment Intelligence
+assortment_intelligence/
+├── store_assortment.parquet
+├── category_coverage.parquet
+├── product_overlap.parquet
+└── assortment_changes.parquet
+Business Questions
+
+Which categories does each competitor cover?
+
+Where are the assortment gaps?
+
+Which competitors are expanding into new categories?
+
+📦 Gold Product 5 — Inventory Intelligence
+
+The system does not treat storefront availability as exact inventory.
+
+Instead, it produces defensible availability signals.
+
+inventory_intelligence/
+├── availability_history.parquet
+├── stockout_events.parquet
+└── availability_summary.parquet
+Business Questions
+
+Which products repeatedly become unavailable?
+
+Which competitors have persistent availability problems?
+
+🥊 Gold Product 6 — Competitor Intelligence
+
+This layer combines storefront events with enrichment vectors.
+
+competitor_intelligence/
+├── competitor_events.parquet
+├── competitor_activity.parquet
+└── competitor_scorecards.parquet
+
+A future competitor scorecard can combine:
+
+Product launches
+Price changes
+Promotional activity
+Availability changes
+Customer sentiment
+Brand reputation
+Search visibility
+Social engagement
+Advertising activity
+Geographic pricing
+Competitor similarity
+Market trends
+
+This transforms multiple disconnected signals into a single competitor-level intelligence view.
+
+🌐 Gold Product 7 — Market Intelligence
+market_intelligence/
+├── category_trends.parquet
+├── pricing_trends.parquet
+├── promotion_trends.parquet
+├── product_launch_trends.parquet
+└── competitive_activity.parquet
+
+The analytical hierarchy becomes:
+
+Variant
    ↓
-Decision Product
+Product
    ↓
-Action
-
-For example:
-
-Merchant
+Brand
    ↓
-"Where should I investigate pricing?"
+Category
    ↓
-Pricing Opportunities
+Competitive Set
    ↓
-Pricing decision
+Market
 
-This is the fundamental reason Gold is organized around data products, rather than simply analytical tables.
+With enrichment:
 
-Serving Layer
+Product
+   +
+Price
+   +
+Customer perception
+   +
+Search
+   +
+Social
+   +
+Advertising
+   +
+Geography
+   +
+Competition
+   +
+Market trends
 
-Today's major architectural addition is the Merchant Serving Layer.
+This is where the pipeline begins to move from storefront monitoring toward market intelligence.
 
-The implementation is a FastAPI service that sits between Gold Parquet data and downstream merchants.
+🚚 Serving Layer
 
-                         GOLD LAKE
-                            │
-                            ▼
-                  Merchant Serving API
-                            │
-             ┌──────────────┼──────────────┐
-             ▼              ▼              ▼
-          Pricing       Inventory       Discounts
-       Opportunities       Risks       Opportunities
-             │              │              │
-             └──────────────┼──────────────┘
-                            ▼
-                  Competitive Intelligence
-                            │
-                            ▼
-                       MERCHANT
+The Parquet datasets are not the final customer product.
 
-The serving application is currently:
+They are the data products underneath customer-facing products.
 
-Merchants_serving.py
+                         GOLD
+                          │
+             ┌────────────┼────────────┐
+             ▼            ▼            ▼
+         Dashboard       API         Alerts
+             │            │            │
+             ▼            ▼            ▼
+      Human analysis  Integration    Action
 
-Current service version:
+The serving layer now exposes Gold intelligence through a multi-tenant FastAPI architecture.
 
-2.4.3
-Why Serving Is Separate From Gold Generation
+The current serving design includes:
 
-Gold generation and serving have different operational characteristics.
+Tenant-specific authentication
+Tenant data isolation
+Gold Parquet consumption
+Pricing opportunity endpoints
+Inventory risk endpoints
+Discount opportunity endpoints
+Competitive intelligence endpoints
+Tenant webhook health
+Signed webhook delivery
+Retry handling
+Exponential backoff
+Jitter
+Idempotency keys
+Dead-letter handling
+Delivery logging
+Secured operator/admin observability
+🔐 Multi-Tenant Serving Architecture
 
-Gold generation
+The serving layer models each merchant as an isolated tenant:
 
-Concerned with:
+                         SERVING API
+                              │
+             ┌────────────────┼────────────────┐
+             ▼                ▼                ▼
+        Merchant 001     Merchant 002     Merchant 003
+             │                │                │
+             ▼                ▼                ▼
+          Gold Data         Gold Data         Gold Data
+             │                │                │
+             └────────────────┼────────────────┘
+                              │
+                         API Consumers
 
-correctness
-transformations
-joins
-enrichment
-business logic
-historical consistency
-analytical reproducibility
-Serving
-
-Concerned with:
-
-authentication
-tenant isolation
-API contracts
-latency
-delivery
-retries
-event signatures
-operational health
-customer consumption
-
-Therefore:
-
-GOLD
-  │
-  │ analytical contract
-  ▼
-SERVING
-  │
-  ├── API
-  ├── Webhooks
-  ├── Alerts
-  └── Integrations
-
-This separation allows Gold to remain an analytical system while Serving becomes an operational system.
-
-Multi-Tenant Serving
-
-The current serving architecture defines merchant tenants explicitly.
-
-Current tenant configuration includes:
-
-merchant_001 → Transparent Labs
-merchant_002 → Kaged
-merchant_003 → Ghost Lifestyle
-merchant_004 → Cellucor
-merchant_005 → Gorilla Mind
-merchant_006 → PE Science
-
-Each tenant has:
+Tenant access is validated using:
 
 merchant_id
-name
-store_url
-api_key
-webhook_endpoint
-webhook_secret
-
-The API uses the merchant identifier to establish the tenant context.
-
-The critical isolation rule is:
-
-Request
-  ↓
-merchant_id
-  ↓
-authentication
-  ↓
-tenant configuration
-  ↓
-tenant store_url
-  ↓
-Gold query
-
-A merchant therefore cannot simply request another merchant's Gold records by changing an API parameter.
-
-Tenant Authentication
-
-The serving API uses an API-key-based tenant authentication mechanism.
-
-The access path is:
-
-Client Request
-      │
-      ▼
+     +
 X-API-Key
-      │
-      ▼
-merchant_id
-      │
-      ▼
-Tenant Lookup
-      │
-      ▼
-Constant-Time Credential Comparison
-      │
-      ▼
-Authorized Gold Access
 
-Credential comparison uses:
+The API uses constant-time credential comparison to reduce timing-attack exposure.
 
-hmac.compare_digest(...)
+Tenant filtering is performed against the merchant's store_url before Gold records are returned.
 
-to avoid ordinary string comparison for secret validation.
+🔗 Gold Consumption Endpoints
 
-Unauthorized requests are rejected before Gold data is returned.
-
-Gold Data Access Layer
-
-The serving API reads Gold Parquet datasets through:
-
-ParquetStoreReader
-
-The reader:
-
-resolves the requested Gold category
-loads the corresponding Parquet dataset
-validates the presence of store_url
-filters records to the authenticated tenant
-returns the tenant-specific records
-
-Conceptually:
-
-Gold Parquet
-     │
-     ▼
-ParquetStoreReader
-     │
-     ▼
-store_url filter
-     │
-     ▼
-Tenant Dataset
-     │
-     ▼
-API Response
-
-This keeps the serving layer from exposing the entire Gold lake to a merchant.
-
-Merchant API
-
-Current API endpoints include:
-
-GET /
-
-Service health/root response.
+The serving layer exposes business-oriented endpoints including:
 
 GET /api/v1/merchants/{merchant_id}/pricing-opportunities
 
-Pricing intelligence.
-
 GET /api/v1/merchants/{merchant_id}/inventory-risks
-
-Inventory risk intelligence.
 
 GET /api/v1/merchants/{merchant_id}/discount-opportunities
 
-Discount intelligence.
-
 GET /api/v1/merchants/{merchant_id}/competitive-intelligence
-
-Competitive intelligence.
 
 GET /api/v1/merchants/{merchant_id}/health
 
-Tenant-specific webhook health.
+The API therefore moves Gold from:
 
-Webhook Serving
+Parquet files
+     ↓
+Business-oriented API
+     ↓
+Consumer application
 
-The serving architecture also introduces an operational delivery mechanism for business events.
+This establishes the foundation for future dashboards, customer integrations, and SaaS consumption.
 
-The webhook dispatcher creates a canonical event envelope containing:
+⚡ Event-Driven Webhook Serving
+
+The serving layer also introduces an outbound event delivery architecture.
+
+Business events can be dispatched to merchant-specific webhook endpoints.
+
+The event envelope contains:
 
 event_id
 event_type
@@ -1027,51 +1083,11 @@ entity_id
 source
 data
 
-Example conceptual event:
-
-Gold Intelligence
-       ↓
-Business Event
-       ↓
-Event Envelope
-       ↓
-Webhook Dispatcher
-       ↓
-Merchant Endpoint
-
-The event structure is designed to create a stable contract between the intelligence platform and downstream merchant systems.
-
-Event Identity
-
-Each webhook event receives a unique identifier:
-
-evt_<unique-id>
-
-Each delivery attempt receives its own delivery identifier:
-
-del_<unique-id>
-
-The event ID is also used as the idempotency key:
-
-X-Idempotency-Key
-
-This allows the receiving system to distinguish:
-
-same event
-     vs.
-different delivery attempt
-
-That distinction becomes important when retries occur.
-
-Webhook Security
-
-Webhook payloads are signed using:
+Each event is signed using:
 
 HMAC-SHA256
 
-The signature is generated from the serialized event envelope and a tenant-specific webhook secret.
-
-The request contains:
+Delivery includes:
 
 X-Webhook-Id
 X-Event-Id
@@ -1079,336 +1095,142 @@ X-Webhook-Timestamp
 X-Webhook-Signature
 X-Idempotency-Key
 
-Conceptually:
+This provides the foundation for event-driven intelligence delivery.
 
-Event Envelope
-      │
-      ▼
-Canonical JSON
-      │
-      +
-Tenant Webhook Secret
-      │
-      ▼
-HMAC-SHA256
-      │
-      ▼
-Webhook Signature
+Instead of requiring customers to continuously query the API:
 
-This establishes a cryptographic mechanism for downstream consumers to verify that a webhook was generated using the configured tenant secret.
+Gold Change
+    ↓
+Business Event
+    ↓
+Webhook
+    ↓
+Customer System
+    ↓
+Action
+🔄 Webhook Reliability
 
-Webhook Reliability
-
-The dispatcher implements retry handling for unsuccessful deliveries.
-
-Current configuration:
+Webhook delivery implements:
 
 Maximum retries: 5
-Base backoff:    2 seconds
-Timeout:         5 seconds
+Base backoff: 2 seconds
+Timeout: 5 seconds
+Exponential backoff
+Random jitter
 
-Retry behavior uses exponential backoff with jitter:
+The delivery lifecycle is:
 
-Attempt 1
-   ↓
-2s + jitter
-
-Attempt 2
-   ↓
-4s + jitter
-
-Attempt 3
-   ↓
-8s + jitter
-
-Attempt 4
-   ↓
-16s + jitter
-
-Attempt 5
-   ↓
+Event Created
+     ↓
+HTTP POST
+     ↓
+Success ───────────────► Delivery Log
+     │
+     ▼
+Failure
+     │
+     ▼
+Retry
+     │
+     ├── Success ──────► Delivery Log
+     │
+     ▼
+Maximum Retries
+     │
+     ▼
 Dead Letter Queue
 
-This prevents a temporarily unavailable merchant endpoint from immediately becoming a permanent delivery failure.
+Failed deliveries are retained in an in-memory dead-letter queue together with:
 
-Dead-Letter Queue
+Event ID
+Delivery ID
+Merchant ID
+Event type
+Payload
+Error
+Failure timestamp
 
-After all retry attempts fail, the event is moved into an in-memory dead-letter queue.
+This establishes the operational pattern required for reliable event delivery.
 
-The DLQ captures:
+🛠️ Operator / Admin Plane
 
-event_id
-delivery_id
-merchant_id
-event_type
-payload
-error
-failed_at
-
-This creates an explicit failure state:
-
-Event
-  ↓
-Delivery
-  ↓
-Retry
-  ↓
-Retry
-  ↓
-Retry
-  ↓
-Retry
-  ↓
-Retry
-  ↓
-DEAD LETTER
-
-The architectural principle is:
-
-A failed delivery should become an observable state, not a silently lost event.
-
-Delivery Observability
-
-The webhook engine maintains delivery logs containing:
-
-delivery_id
-event_id
-merchant_id
-event_type
-status
-attempts
-error
-timestamp
-
-Successful deliveries are recorded as:
-
-SUCCESS
-
-Failed exhausted deliveries are recorded as:
-
-DEAD_LETTER
-
-The system also tracks endpoint health per merchant.
-
-This provides the foundation for future operational metrics such as:
-
-delivery_success_rate
-retry_rate
-dead_letter_rate
-endpoint_availability
-average_delivery_latency
-Operator Plane
-
-The serving architecture now includes a separate operator endpoint:
+The serving architecture includes a secured operator endpoint for webhook observability:
 
 GET /api/v1/internal/system/webhook-logs
 
-This endpoint exposes:
+The endpoint exposes:
 
-active_dead_letter_count
-dead_letter_queue
-recent_delivery_logs
+Active dead-letter count
+Dead-letter events
+Recent delivery logs
+Delivery status
+Retry attempts
+Failure reasons
 
-Access is protected by an operator API key.
+Operator access is separated from merchant access through a dedicated administrative credential.
 
-The conceptual separation is:
+📊 Example Customer Intelligence
+Competitive Intelligence Dashboard
+COMPETITOR ACTIVITY — WEEKLY
 
-MERCHANT PLANE
-      │
-      ├── Gold data
-      ├── Business intelligence
-      └── Merchant webhooks
+GHOST
+  4 new products
+  7 price changes
+  12 active promotions
+  ↑ search activity
+  ↑ social engagement
 
-OPERATOR PLANE
-      │
-      ├── Delivery logs
-      ├── Dead letters
-      ├── Endpoint health
-      └── Operational diagnostics
+KAGED
+  8 new products
+  3 price increases
+  2 stockout events
+  ↑ advertising activity
 
-This prevents operational diagnostics from being treated as ordinary merchant-facing data.
+TRANSPARENT LABS
+  5 new products
+  6 price changes
+  strong customer sentiment
+🚨 Competitive Price Alert
+PRICE CHANGE DETECTED
 
-Current Event Architecture
+Competitor: GHOST
+Product: Whey Protein
 
-The current serving layer supports manual test-event triggering through:
+Previous: $59.99
+Current:  $49.99
+Change:   -16.7%
+🚀 Product Launch Alert
+NEW PRODUCT DETECTED
 
-POST /api/v1/webhooks/trigger-test-event
+Competitor: KAGED
+Category: Creatine
+📈 Weekly Market Intelligence
+SUPPLEMENT MARKET
+WEEKLY INTELLIGENCE
 
-The current flow is:
+Pricing
+Average monitored price ↓ 3.2%
 
-API Request
-    ↓
-Tenant Authentication
-    ↓
-Test Business Event
-    ↓
-Background Task
-    ↓
-Webhook Dispatcher
-    ↓
-Signed HTTP Request
-    ↓
-Merchant Endpoint
+Promotions
+Promotional activity ↑ 14%
 
-This is currently a serving/integration test capability.
+New Products
+23 new products detected
 
-The next architectural step is to replace manual triggering with automated business-event detection derived from Gold changes.
+Availability
+11 products experienced stockouts
 
-The target architecture is:
+Search
+Search activity ↑
 
-Gold
-  ↓
-Business Event Detector
-  ↓
-Canonical Event
-  ↓
-Durable Queue
-  ↓
-Webhook Worker
-  ↓
-Retry / Signing / DLQ
-  ↓
-Merchant
+Advertising
+Competitive ad activity ↑
 
-This distinction is important:
+Most active competitor
+Brand X
+📁 Current Repository Structure
 
-The current implementation proves the delivery mechanism. It does not yet claim that every Gold change automatically produces an event.
-
-Current Gold-to-Serving Boundary
-
-The platform now has two distinct paths:
-
-Analytical path
-Bronze
-   ↓
-Silver
-   ↓
-Enrichment
-   ↓
-Gold
-Consumption path
-Gold
-   ↓
-Serving Adapter
-   ↓
-FastAPI
-   ├── REST APIs
-   ├── Webhooks
-   └── Health
-
-This creates a clean architectural boundary:
-
-                 DATA PLATFORM
-                      │
-       ┌──────────────┴──────────────┐
-       ▼                             ▼
-   Generation                    Serving
-       │                             │
-   Bronze                         FastAPI
-       ↓                             │
-   Silver                            ├── API
-       ↓                             ├── Webhooks
- Enrichment                          ├── Alerts
-       ↓                             └── Integrations
-     Gold
-Why the Serving Layer Matters
-
-Generating intelligence is only half of the problem.
-
-A Gold dataset sitting on disk does not automatically create customer value.
-
-A customer needs to be able to consume:
-
-"What changed?"
-"Where is the opportunity?"
-"Which competitor moved?"
-"What requires attention?"
-
-without understanding:
-
-Parquet
-pandas
-enrichment folders
-pipeline internals
-scraper implementation
-data transformations
-
-That is why serving exists.
-
-Gold is the decision-ready data contract. Serving is the delivery contract.
-
-From Data Engineering to Decision Engineering
-
-The architecture increasingly follows:
-
-SOURCE
-  ↓
-OBSERVATION
-  ↓
-CANONICAL DATA
-  ↓
-ENRICHMENT
-  ↓
-DECISION SIGNAL
-  ↓
-BUSINESS EVENT
-  ↓
-DELIVERY
-  ↓
-ACTION
-
-For example:
-
-Competitor changes price
-        ↓
-Silver captures historical state
-        ↓
-Gold calculates price movement
-        ↓
-Competitive intelligence identifies significance
-        ↓
-Business event generated
-        ↓
-Webhook delivered
-        ↓
-Merchant investigates pricing
-
-This is the intended direction of the platform.
-
-Data Products vs Data Tables
-
-The platform deliberately avoids treating Gold as a collection of generic analytical tables.
-
-A Gold product should answer:
-
-Who is this for?
-
-What painful question does it answer?
-
-What decision does it support?
-
-Why is the information valuable enough to pay for?
-
-Therefore:
-
-Data
-  ↓
-Signal
-  ↓
-Decision Product
-  ↓
-Customer Outcome
-
-is more important than:
-
-Data
-  ↓
-Table
-  ↓
-Dashboard
-Current Repository Structure
-
-The repository is evolving toward explicit separation of responsibilities:
+The repository is evolving toward explicit separation between ingestion, transformation, enrichment, Gold modeling, and serving.
 
 .
 ├── Shopify-Supplements/
@@ -1438,22 +1260,23 @@ The repository is evolving toward explicit separation of responsibilities:
 │   ├── external_enricher.py
 │   └── api_clients.py
 │
+├── shopify/
+│   └── pipeline.py
+│
 ├── Gold_Lake/
 │   └── Pricing_Intelligence/
 │       └── Shopify_Merchants/
-│
-├── shopify/
-│   └── pipeline.py
+│           ├── product_pricing_opportunities/
+│           ├── inventory_risk/
+│           ├── discount_opportunities/
+│           └── competitive_intelligence/
 │
 ├── tests/
 │
 ├── shopify_intelligence.db
 ├── shopify_supplement_intelligence.json
 └── README.md
-
-The exact Gold product structure will continue to evolve as more decision products are productionized.
-
-Component Responsibilities
+🧩 Pipeline Responsibilities
 Component	Responsibility
 engine.py	Async storefront collection
 graphql_client.py	Shopify Storefront GraphQL access
@@ -1461,40 +1284,51 @@ normalizer.py	Canonical product and variant transformation
 db_manager.py	Persistence and database management
 pipeline.py	End-to-end ingestion orchestration
 silver_supplements_orchestrator.py	Bronze → Silver transformation
-external_enricher.py	External intelligence orchestration
+external_enricher.py	Coordinates external intelligence enrichment
 api_clients.py	External provider integration gateway
-Gold orchestrators	Decision-product generation
-Merchants_serving.py	Gold serving and merchant API
-ParquetStoreReader	Tenant-filtered Gold access
-WebhookDispatcher	Event delivery, retries and DLQ
+Gold orchestration	Converts enriched signals into decision-ready datasets
+Merchant serving API	Exposes Gold intelligence to tenants and downstream systems
 tests/	Automated validation
-Data Quality & Observability
 
-Competitive intelligence is a decision-support product.
+The architectural direction is:
 
-Incorrect data can therefore become an incorrect business decision.
+Ingestion
+    ↓
+Transformation
+    ↓
+Enrichment
+    ↓
+Gold Modeling
+    ↓
+Serving
 
-The platform prioritizes:
+Business logic should remain outside the crawler wherever possible.
+
+📐 Data Quality & Observability
+
+Data quality is a core product requirement because incorrect competitive intelligence can lead to incorrect business decisions.
+
+The pipeline prioritizes:
 
 Uniqueness
 
-Prevent duplicate observations from corrupting metrics.
+Prevent duplicate observations from inflating metrics.
 
 Completeness
 
-Validate required product, merchant, source, and timestamp fields.
+Validate required product, variant, source, and timestamp fields.
 
 Consistency
 
-Normalize heterogeneous storefront representations.
+Map heterogeneous storefront responses into a stable canonical model.
 
 Historical Integrity
 
-Preserve observations across runs.
+Preserve previous observations for longitudinal analysis.
 
 Lineage
 
-Trace intelligence back to source observations.
+Maintain traceability from intelligence back to source observations.
 
 Provenance
 
@@ -1504,9 +1338,9 @@ Observed
 Derived
 External
 Simulated
-Pipeline Observability
+Observability
 
-Track:
+Pipeline runs should expose:
 
 run_id
 crawl_timestamp
@@ -1516,9 +1350,8 @@ records_valid
 records_rejected
 processing_duration
 errors
-Enrichment Observability
 
-Track:
+Enrichment execution should additionally track:
 
 enrichment_domain
 base_sku_count
@@ -1526,174 +1359,124 @@ records_enriched
 provider
 fallback_used
 execution_status
-Serving Observability
 
-Track:
+Serving observability additionally tracks:
 
 merchant_id
 event_id
 delivery_id
 event_type
 delivery_status
-attempt_count
-endpoint_health
-dead_letter_count
+attempts
+failure_reason
 timestamp
-What Was Completed
+✅ What Has Been Completed
 Ingestion
  Async Shopify storefront crawling
  Concurrent multi-store collection
  Shopify Storefront GraphQL support
- Public catalog fallback
- Product extraction
- Variant extraction
- Pricing extraction
- Availability extraction
-Bronze
- Raw source preservation
- Crawl metadata
- Source traceability
- Historical observations
+ Public catalog endpoint fallback
+ Product and variant extraction
+Normalization
+ Canonical product records
+ Variant-level records
+ Pricing fields
+ Availability signals
+ Crawl timestamps
+Data Integrity
+ Duplicate-record issue identified
+ Duplicate-record issue fixed
+ Historical persistence maintained
+ Data quality controls established
 Silver
- Silver architecture
- silver_supplements_orchestrator.py
- Canonical product model
- Validation
- Normalization
- Deduplication
- Historical snapshots
- Duplicate-record issue identified and fixed
+ Silver architecture established
+ silver_supplements_orchestrator.py implemented
+ Bronze → Silver transformation boundary established
+ Canonical analytical dataset introduced
 Internal Enrichment
- Pricing enrichment
- Real Shopify pricing foundation
- price_metrics.json
- SKU-level enrichment foundation
+ Pricing enrichment implemented
+ Real Shopify pricing foundation established
+ price_metrics.json generated
+ SKU-level enrichment foundation established
 External Enrichment
- external_enricher.py
- api_clients.py
- Environment-driven credentials
- Modular provider architecture
- HTTP transport layer
+ external_enricher.py implemented
+ api_clients.py modular gateway established
+ Environment-driven credential architecture established
+ HTTP transport wrapper established
+ External provider integration architecture established
  Import/path execution issue resolved
  Full enrichment suite executed
  2,059 base SKUs processed
- Customer sentiment intelligence
- Brand reputation intelligence
- SEO/search intelligence
- Social intelligence
- Advertising intelligence
- Geographic pricing intelligence
- Competitor similarity
- Market trends
- JSON assets persisted
+ Customer sentiment & reviews generated
+ Brand reputation & positioning generated
+ SEO & search visibility generated
+ Social engagement & viral buzz generated
+ Advertising intelligence generated
+ Geographical & currency arbitrage generated
+ Cross-brand competitor benchmarks generated
+ Market trend velocities generated
+ JSON intelligence assets persisted
 Gold
- Gold lake established
- Merchant/product intelligence model established
- Pricing opportunities product
- Inventory risk product
- Discount opportunities product
- Competitive intelligence product
- Gold Parquet serving boundary established
+ Gold data lake architecture established
+ Business-oriented Gold domains established
+ Pricing intelligence domain established
+ Inventory risk domain established
+ Discount opportunity domain established
+ Competitive intelligence domain established
+ Gold outputs standardized around Parquet
+ Gold separated from Silver and enrichment concerns
 Serving
- FastAPI serving layer
- Versioned API structure
- Multi-tenant merchant model
- Tenant API-key authentication
- Constant-time credential comparison
- Tenant-isolated Gold queries
- Pricing opportunity endpoint
- Inventory risk endpoint
- Discount opportunity endpoint
- Competitive intelligence endpoint
- Tenant health endpoint
- Webhook dispatcher
- HMAC-SHA256 webhook signatures
- Event IDs
- Delivery IDs
- Idempotency keys
- Retry handling
- Exponential backoff
- Jitter
- Timeout handling
- Dead-letter handling
- Delivery logging
- Endpoint health tracking
- Secured operator endpoint
- Manual webhook test-event capability
-Current Engineering Position
+ Multi-tenant FastAPI serving layer established
+ Tenant authentication implemented
+ Tenant-level data isolation implemented
+ Pricing opportunity API implemented
+ Inventory risk API implemented
+ Discount opportunity API implemented
+ Competitive intelligence API implemented
+ Tenant webhook health endpoint implemented
+ HMAC-SHA256 webhook signing implemented
+ Webhook retries implemented
+ Exponential backoff implemented
+ Jitter implemented
+ Idempotency keys implemented
+ Dead-letter handling implemented
+ Delivery logging implemented
+ Secured operator/admin observability implemented
+🎯 Current Engineering Position
 
-The project has moved through several architectural stages:
+The project is no longer:
 
-Stage 1
-Shopify Scraper
-      ↓
+Shopify scraper
 
-Stage 2
-Historical Data Pipeline
-      ↓
+It is now:
 
-Stage 3
-Bronze → Silver Data Platform
-      ↓
+Shopify Ingestion
+        ↓
+     Bronze
+        ↓
+     Silver
+        ↓
+Internal Enrichment
+        +
+External Intelligence
+        ↓
+      Gold
+        ↓
+     Serving
+        ↓
+Intelligence Products
+        ↓
+Business Decisions
 
-Stage 4
-Internal + External Enrichment
-      ↓
+The critical architectural shift is that the pipeline now has an intelligence context layer surrounding its Shopify observations.
 
-Stage 5
-Gold Decision Products
-      ↓
+The next priority is not simply collecting more storefront records.
 
-Stage 6
-Merchant Serving Layer
+It is:
 
-The current system is therefore better described as:
+Turning the enriched dataset into validated Gold data products that answer specific competitive and market questions, then reliably serving those products to the systems and people making decisions.
 
-A multi-layer e-commerce intelligence platform with a merchant-facing serving boundary.
-
-The crawler is now only one component.
-
-What Is Not Yet Production-Complete
-
-The serving layer is an architectural foundation, not yet a fully hardened production platform.
-
-Remaining work includes:
-
-External intelligence
- Production provider credentials
- Live external observations
- Provider-level lineage
- Source freshness monitoring
- Enrichment confidence scoring
-Gold
- Automated Gold generation orchestration
- Cross-domain scoring
- Gold data quality contracts
- Product-level lineage into Gold
- Automated change detection
-Eventing
- Automated Gold-derived event detection
- Durable event queue
- Dedicated webhook worker
- Persistent DLQ
- Persistent delivery logs
- Event replay mechanism
- Webhook timestamp/replay protection
- Production endpoint verification
-Serving
- Production-grade secret management
- Persistent authentication store
- Rate limiting
- API request observability
- API version migration strategy
- Production deployment
- Horizontal scaling strategy
-
-The important distinction is:
-
-The architecture has been established; production hardening remains a separate engineering phase.
-
-Roadmap
+🗺️ Roadmap
 Phase 1 — Ingestion
  Multi-store asynchronous collection
  Shopify endpoint handling
@@ -1708,43 +1491,41 @@ Phase 2 — Silver
 Phase 3 — Enrichment
  Internal pricing enrichment
  External enrichment architecture
- Customer sentiment
+ Customer sentiment & reviews
  Brand reputation
  SEO/search visibility
  Social engagement
  Advertising intelligence
- Geographic pricing
+ Geographical arbitrage
  Competitor benchmarks
  Market trends
  External API client architecture
  Fallback enrichment execution
  2,059-SKU enrichment run
 Phase 4 — Gold
- Pricing opportunities
- Inventory risk
- Discount opportunities
- Competitive intelligence
+ Competitive Pricing Intelligence architecture
+ Promotion Intelligence architecture
+ Product Launch Intelligence architecture
+ Inventory Intelligence architecture
+ Assortment Intelligence architecture
+ Competitor Intelligence architecture
+ Market Intelligence architecture
  Cross-domain competitor scoring
- Automated Gold orchestration
- Gold data quality contracts
- Automated change detection
+ Production Gold validation
+ Gold data quality monitoring
 Phase 5 — Serving
- Gold Parquet serving
- Tenant-isolated API
- Merchant authentication
- Pricing API
- Inventory API
- Discount API
- Competitive intelligence API
- Tenant health
- Webhook dispatcher
- HMAC signing
- Retry/backoff
- Dead-letter handling
+ Gold Parquet data products
+ Multi-tenant API architecture
+ Tenant authentication
+ Tenant data isolation
+ Business-oriented intelligence endpoints
+ Webhook event delivery
+ Webhook reliability controls
  Operator observability
- Durable event queue
- Automated Gold-derived events
- Production deployment
+ BI dashboard
+ Competitive alerts
+ Scheduled reports
+ Automated competitor scorecards
 Phase 6 — Production External Intelligence
  Production Apify integrations
  Production Bright Data integrations
@@ -1755,36 +1536,23 @@ Phase 6 — Production External Intelligence
  Live social intelligence
  Live advertising intelligence
  Live geographic pricing
+ External source freshness tracking
  Provider reliability scoring
- Source freshness monitoring
-Phase 7 — Intelligence Products
- Competitive pricing dashboard
- Promotion intelligence
- Product launch alerts
- Inventory alerts
- Competitor scorecards
- Market intelligence reports
- Merchant-specific intelligence feeds
-Phase 8 — Platform Expansion
+ Enrichment confidence scoring
+Phase 7 — Expansion
  Additional Shopify verticals
  Additional e-commerce sources
  Cross-marketplace intelligence
  Cross-platform product identity
  Broader e-commerce intelligence platform
-Design Principles
+🧭 Design Principles
 1. Business Question Before Source
 
-A source should not be added merely because it can be scraped.
+A source should not be added simply because it can be scraped or queried.
 
 Ask:
 
-Who needs this information?
-
-What decision does it support?
-
-What pain does it remove?
-
-Why should someone pay for it?
+Who needs this data, what decision does it support, and why would they pay for it?
 
 2. Raw Data Is Evidence
 
@@ -1792,17 +1560,30 @@ Bronze preserves what happened.
 
 3. Silver Is the Analytical Contract
 
-Silver provides the stable, canonical representation that downstream systems can trust.
+Silver provides the stable, validated, canonical representation downstream consumers can trust.
 
-4. Enrichment Adds Context
+4. Enrichment Creates Context
+
+Enrichment adds reusable intelligence vectors around canonical observations.
+
 Observation
-    ↓
+     ↓
 Derived Signal
-    ↓
+     ↓
 External Context
-    ↓
+     ↓
 Intelligence Vector
-5. Gold Represents Decisions
+5. Provenance Is Non-Negotiable
+
+A simulated metric must never be presented as a live external observation.
+
+The system must preserve the distinction between:
+
+Observed
+Derived
+External
+Simulated
+6. Gold Represents Decisions
 
 Gold should answer:
 
@@ -1819,25 +1600,7 @@ What external signals surround the change?
 What market pattern is emerging?
 
 What should the business investigate or act on?
-6. Serving Is a Separate Contract
-
-Gold defines:
-
-What intelligence exists?
-
-Serving defines:
-
-How that intelligence is consumed.
-
-7. Provenance Is Non-Negotiable
-
-The platform must preserve the difference between:
-
-Observed
-Derived
-External
-Simulated
-8. Historical Data Is a Product
+7. Historical Data Is a Product
 Snapshot
    ↓
 History
@@ -1849,42 +1612,29 @@ Trend
 Context
    ↓
 Intelligence
-9. Reliability Before Scale
+8. Reliability Before Scale
 
-The goal is not to collect millions of records merely to demonstrate scraping scale.
+The goal is not to collect millions of records simply to demonstrate scraping scale.
 
-The goal is:
+The goal is to produce:
 
 Trustworthy, explainable signals that survive repeated pipeline runs and support real decisions.
 
-10. Separate Acquisition From Intelligence
-Crawler
-   ↓
-Evidence
+9. Separate Acquisition From Intelligence
 
-Silver
-   ↓
-Trust
+The crawler collects evidence.
 
-Enrichment
-   ↓
-Context
+Silver standardizes it.
 
-Gold
-   ↓
-Decision
+Enrichment adds context.
 
-Serving
-   ↓
-Delivery
+Gold creates decisions.
 
-Each layer has a different responsibility.
+Serving delivers those decisions.
 
-That separation is intentional.
+🔭 Long-Term Vision
 
-Long-Term Vision
-
-The long-term objective is to evolve the project from a Shopify-specific intelligence pipeline into an E-commerce Intelligence Platform.
+The long-term objective is to evolve the project from a Shopify-specific pipeline into an E-commerce Intelligence Platform.
 
                   E-COMMERCE SOURCES
                          │
@@ -1895,7 +1645,7 @@ The long-term objective is to evolve the project from a Shopify-specific intelli
          └───────────────┼────────────────┘
                          ▼
                       BRONZE
-                  Source Evidence
+                   Source Evidence
                          │
                          ▼
                       SILVER
@@ -1909,34 +1659,25 @@ The long-term objective is to evolve the project from a Shopify-specific intelli
                        GOLD
                  Decision-Ready Data
                          │
+         ┌───────────────┼────────────────┐
+         ▼               ▼                ▼
+      Pricing         Product          Market
+   Intelligence     Intelligence     Intelligence
+         │               │                │
+         └───────────────┼────────────────┘
                          ▼
-                     SERVING
+                  DATA PRODUCTS
                          │
-            ┌────────────┼────────────┐
-            ▼            ▼            ▼
-           APIs        Webhooks      Alerts
-            │            │            │
-            └────────────┼────────────┘
+         ┌───────────────┼────────────────┐
+         ▼               ▼                ▼
+     Dashboards         APIs            Alerts
+                         │
                          ▼
-                  BUSINESS ACTIONS
+                 BUSINESS DECISIONS
 
-The strategic progression is:
+The strategic objective is not to build the largest Shopify scraper.
 
-Scraping
-   ↓
-Data Collection
-   ↓
-Historical Intelligence
-   ↓
-Decision Products
-   ↓
-Operational Delivery
-   ↓
-E-commerce Intelligence Platform
-
-The platform is therefore no longer being designed as a scraper with analytics attached.
-
-It is being designed as a data product system.
+It is to build a reliable intelligence system that converts fragmented e-commerce activity into historical, explainable, decision-ready data.
 
 The crawler collects the evidence.
 
@@ -1946,10 +1687,12 @@ Silver makes it trustworthy.
 
 Enrichment adds context.
 
-Gold makes it decision-ready.
+Gold makes it useful.
 
-Serving makes it consumable.
+Serving makes it actionable.
 
-Events make it actionable.
+Data products make it valuable.
 
-And the customer ultimately pays for the decision, not the dataset.
+
+
+**Ingestion → Bronze → Silver → Enrichment → Gold → Serving → Business Decisions.**
