@@ -1,0 +1,17 @@
+{
+    "orchestrator_version": "1.0.0",
+    "target_persona": "Shopify Merchant",
+    "actionable_directives": [
+        {
+            "sku": "SAMPLE-SKU-001",
+            "decision_category": "Pricing & Margins",
+            "recommended_action": "Increase price by 7% or implement a tiered bundle.",
+            "supporting_signals": {
+                "price_elasticity": "Low",
+                "competitor_similarity_score": 0.89,
+                "market_trend_velocity": "+14% MoM"
+            },
+            "expected_business_impact": "Captures unmet willingness-to-pay without sacrificing conversion rate."
+        }
+    ]
+}

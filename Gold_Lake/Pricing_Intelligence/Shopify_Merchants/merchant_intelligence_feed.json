@@ -1,0 +1,18 @@
+{
+    "orchestrator_version": "1.1.0",
+    "target_persona": "Shopify Merchants",
+    "total_enrichment_feeds_processed": 0,
+    "merchant_directives": [
+        {
+            "decision_domain": "Pricing & Margin Optimization",
+            "question_answered": "Should I adjust product pricing or deploy bundle strategies?",
+            "prescriptive_action": "Apply a 5-8% price increase or bundle with high-affinity complementary stock.",
+            "operational_signals": {
+                "active_price_metrics_records": 0,
+                "active_sentiment_records": 0,
+                "active_inventory_records": 0
+            },
+            "shopify_admin_directive": "Navigate to Shopify Admin > Products > Pricing Rules to update base MSRP or configure automatic volume discounts."
+        }
+    ]
+}

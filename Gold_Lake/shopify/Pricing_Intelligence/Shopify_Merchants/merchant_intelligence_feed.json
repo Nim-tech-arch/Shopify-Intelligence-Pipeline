@@ -1,0 +1,30 @@
+{
+    "pipeline_metadata": {
+        "sources_processed": 0,
+        "files_processed": 0,
+        "records_ingested": 0,
+        "products_resolved": 0,
+        "decisions_generated": 1,
+        "records_rejected": 0,
+        "execution_timestamp": "2026-08-10T09:47:41.667270+00:00"
+    },
+    "discovered_sources": [],
+    "decisions": {
+        "pricing_opportunities": [
+            {
+                "sku": "SAMPLE-SKU-001",
+                "current_price": 99.99,
+                "recommended_price": 89.99,
+                "price_delta": -10.0,
+                "competitor_median": 92.5,
+                "decision": "REDUCE_PRICE",
+                "priority": "HIGH",
+                "reason": "Product price exceeds competitor median while demand velocity signals contraction.",
+                "expected_impact": "Capture higher conversion velocity and safeguard market share.",
+                "confidence": 0.88
+            }
+        ],
+        "inventory_risks": [],
+        "discount_efficiency": []
+    }
+}

@@ -1,0 +1,29 @@
+{
+    "pipeline_metadata": {
+        "sources_processed": 5,
+        "files_processed": 17,
+        "records_ingested": 20818,
+        "products_resolved": 1974,
+        "decisions_generated": 1974,
+        "records_rejected": 0,
+        "execution_timestamp": "2026-08-10T09:56:42.633863+00:00"
+    },
+    "discovered_sources": [
+        "discount_enrichment",
+        "External_enrichment",
+        "Internal_enrichment",
+        "inventory_enrichment",
+        "pricing_enrichment"
+    ],
+    "data_products": {
+        "inventory_risk": {
+            "path": "inventory_risk/data.parquet",
+            "records_count": 1974,
+            "grain": "one row per merchant + sku",
+            "primary_key": [
+                "store_url",
+                "sku"
+            ]
+        }
+    }
+}
