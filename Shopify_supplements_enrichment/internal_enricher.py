@@ -32,16 +32,22 @@ def run_internal_enrichment():
     
     print(f"[+] Loaded {len(raw_json_data)} active JSON records and {len(historical_df)} historical snapshot rows.")
 
+    # Sort chronologically if timestamp column exists
+    if not historical_df.empty and "snapshot_timestamp" in historical_df.columns:
+        historical_df["snapshot_timestamp"] = pd.to_datetime(historical_df["snapshot_timestamp"])
+        historical_df = historical_df.sort_values(["store_url", "sku", "snapshot_timestamp"])
+
     # 1. Pricing & Volatility Enrichment
     print("[*] Computing Pricing Enrichments...")
     if not historical_df.empty and "sku" in historical_df.columns:
-        price_agg = historical_df.groupby(["sku", "product_title", "store_url"]).agg(
+        price_agg = historical_df.groupby(["sku", "store_url"]).agg(
             current_price=("price", "last"),
             previous_price=("price", "first"),
             mean_price=("price", "mean"),
             min_recorded_price=("price", "min"),
             max_recorded_price=("price", "max"),
-            price_observation_count=("price", "count")
+            price_observation_count=("price", "count"),
+            product_name=("product_title", "last")
         ).reset_index()
         
         price_agg["price_change"] = price_agg["current_price"] - price_agg["previous_price"]
@@ -51,7 +57,8 @@ def run_internal_enrichment():
         price_agg["price_volatility_spread"] = price_agg["max_recorded_price"] - price_agg["min_recorded_price"]
     else:
         price_agg = pd.DataFrame(raw_json_data)
-        price_agg["current_price"] = price_agg["price"]
+        price_agg["product_name"] = price_agg.get("product_title", "Unknown Product")
+        price_agg["current_price"] = price_agg.get("price", 0.0)
         price_agg["price_change"] = 0.0
         price_agg["price_change_percentage"] = 0.0
         price_agg["price_volatility_spread"] = 0.0
@@ -76,6 +83,7 @@ def run_internal_enrichment():
         discount_percentage = (discount_spread / compare_at * 100) if compare_at > 0 else 0.0
         
         enriched_item = item.copy()
+        enriched_item["product_name"] = item.get("product_title", "Unknown Product")
         enriched_item["is_bundle"] = is_bundle
         enriched_item["bundle_classification_flag"] = "Bundle/Stack" if is_bundle else "Standard SKU"
         enriched_item["discount_spread"] = round(discount_spread, 2)
@@ -90,11 +98,12 @@ def run_internal_enrichment():
     # 3. Inventory & Velocity Enrichment
     print("[*] Computing Inventory & State Transition Enrichments...")
     if not historical_df.empty and "available" in historical_df.columns:
-        inv_agg = historical_df.groupby(["sku", "product_title", "store_url"]).agg(
+        inv_agg = historical_df.groupby(["sku", "store_url"]).agg(
             total_snapshots=("available", "count"),
             in_stock_count=("available", lambda x: (x == True).sum()),
             out_of_stock_count=("available", lambda x: (x == False).sum()),
-            latest_inventory_qty=("inventory_quantity", "last")
+            latest_inventory_qty=("inventory_quantity", "last"),
+            product_name=("product_title", "last")
         ).reset_index()
         
         inv_agg["availability_rate"] = (inv_agg["in_stock_count"] / inv_agg["total_snapshots"] * 100).round(2)
@@ -104,6 +113,7 @@ def run_internal_enrichment():
         )
     else:
         inv_agg = pd.DataFrame(raw_json_data)
+        inv_agg["product_name"] = inv_agg.get("product_title", "Unknown Product")
         inv_agg["availability_rate"] = 100.0
         inv_agg["stockout_rate"] = 0.0
         inv_agg["supply_chain_status"] = "Unknown State"
