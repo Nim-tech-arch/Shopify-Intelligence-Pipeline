@@ -1,13 +1,6 @@
-<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/1aa8cd56-009c-4864-90f9-cb2417bfcb9b" />
-<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/1bf8ff72-a6c1-4262-bc81-9276792f2c2f" />
-<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/f3c70472-b96a-4fe3-91d5-c14bdb43e4e9" />
-<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/491a4509-4123-4fb2-b62a-2936a5e8c151" />
-<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/6634e59f-1e14-4b3a-a514-43716ea54512" />
-<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/aa5104db-6bb9-4778-8579-f27a2995d04a" />
-<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/20fe8a89-9787-4f94-acb3-6790597a75c3" />
 
+                    **🚀 Supplement Brand Intelligence Engine (SBIE)**
 
-**🚀 Supplement Brand Intelligence Engine (SBIE)**
 End-to-End Market & Commercial Intelligence for Shopify Supplement Brands
 The Supplement Brand Intelligence Engine (SBIE) is a purpose-built commercial intelligence platform designed specifically for Direct-to-Consumer (DTC) Supplements, Sports Nutrition, and Wellness brands operating on Shopify.
 
@@ -240,3 +233,12 @@ Domain Context Over Raw Data: Raw price changes mean nothing without understandi
 Strict Data Provenance: Every metric is clearly flagged with its origin source: OBSERVED (storefront observations), EXTERNAL (market APIs), or SIMULATED (fallback calculation engines).
 
 Reliability & Data Quality: Focuses on clean deduplication, unit normalization, and verified business schema contracts rather than unvalidated raw volume.
+
+
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/1aa8cd56-009c-4864-90f9-cb2417bfcb9b" />
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/1bf8ff72-a6c1-4262-bc81-9276792f2c2f" />
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/f3c70472-b96a-4fe3-91d5-c14bdb43e4e9" />
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/491a4509-4123-4fb2-b62a-2936a5e8c151" />
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/6634e59f-1e14-4b3a-a514-43716ea54512" />
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/aa5104db-6bb9-4778-8579-f27a2995d04a" />
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/20fe8a89-9787-4f94-acb3-6790597a75c3" />
