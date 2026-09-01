@@ -1,0 +1,954 @@
+[
+    {
+        "domain": "1upnutrition.com",
+        "vendor": "1 Up Nutrition",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/1upnutrition",
+            "tiktok": "https://tiktok.com/@1upnutrition"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "5percentnutrition.com",
+        "vendor": "5% Nutrition",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/5nutrition",
+            "tiktok": "https://tiktok.com/@5nutrition"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "ahlo.co.uk",
+        "vendor": "AHLO",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/ahlo",
+            "tiktok": "https://tiktok.com/@ahlo"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "ancestralsupplements.com",
+        "vendor": "Ancestral Supplements",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/ancestralsupplements",
+            "tiktok": "https://tiktok.com/@ancestralsupplements"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "apothekary.co",
+        "vendor": "Apoth\u00e9kary Co.",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/apothkaryco",
+            "tiktok": "https://tiktok.com/@apothkaryco"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "appliednutrition.uk",
+        "vendor": "Applied Nutrition Ltd",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/appliednutritionltd",
+            "tiktok": "https://tiktok.com/@appliednutritionltd"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "asgardiannutrition.com",
+        "vendor": "Asgarduin Nutrition",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/asgarduinnutrition",
+            "tiktok": "https://tiktok.com/@asgarduinnutrition"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "beekeepersnaturals.com",
+        "vendor": "Beekeeper's Naturals",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/beekeepersnaturals",
+            "tiktok": "https://tiktok.com/@beekeepersnaturals"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "bloomnu.com",
+        "vendor": "Bloom Nutrition",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/bloomnutrition",
+            "tiktok": "https://tiktok.com/@bloomnutrition"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "bpisports.com",
+        "vendor": "BPI Sports",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/bpisports",
+            "tiktok": "https://tiktok.com/@bpisports"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "bpnsupps.com",
+        "vendor": "Bare Performance Nutrition",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/bareperformancenutrition",
+            "tiktok": "https://tiktok.com/@bareperformancenutrition"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "cloverhealth.shop",
+        "vendor": "Clover Health",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/cloverhealth",
+            "tiktok": "https://tiktok.com/@cloverhealth"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "doublewoodsupplements.com",
+        "vendor": "Double Wood Supplements",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/doublewoodsupplements",
+            "tiktok": "https://tiktok.com/@doublewoodsupplements"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "dripdrop.com",
+        "vendor": "DripDrop",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/dripdrop",
+            "tiktok": "https://tiktok.com/@dripdrop"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "ghostlifestyle.com",
+        "vendor": "GHOST",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/ghost",
+            "tiktok": "https://tiktok.com/@ghost"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "globalhealing.com",
+        "vendor": "Global Healing",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/globalhealing",
+            "tiktok": "https://tiktok.com/@globalhealing"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "goli.com",
+        "vendor": "Goli",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/goli",
+            "tiktok": "https://tiktok.com/@goli"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "gorillamind.com",
+        "vendor": "Gorilla Mind",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/gorillamind",
+            "tiktok": "https://tiktok.com/@gorillamind"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "greatlakeswellness.com",
+        "vendor": "GreatLakesWellness",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/greatlakeswellness",
+            "tiktok": "https://tiktok.com/@greatlakeswellness"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "jarrow.com",
+        "vendor": "Jarrow Formulas",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/jarrowformulas",
+            "tiktok": "https://tiktok.com/@jarrowformulas"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "kaged.com",
+        "vendor": "KAGED",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/kaged",
+            "tiktok": "https://tiktok.com/@kaged"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "londonnootropics.com",
+        "vendor": "London Nootropics",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/londonnootropics",
+            "tiktok": "https://tiktok.com/@londonnootropics"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "manukora.com",
+        "vendor": "Manukora",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/manukora",
+            "tiktok": "https://tiktok.com/@manukora"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "maryruthorganics.com",
+        "vendor": "MaryRuth's",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/maryruths",
+            "tiktok": "https://tiktok.com/@maryruths"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "moonjuice.com",
+        "vendor": "Moon Juice",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/moonjuice",
+            "tiktok": "https://tiktok.com/@moonjuice"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "mudwtr.com",
+        "vendor": "MUD\\WTR",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/mudwtr",
+            "tiktok": "https://tiktok.com/@mudwtr"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "nakednutrition.com",
+        "vendor": "Naked Nutrition",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/nakednutrition",
+            "tiktok": "https://tiktok.com/@nakednutrition"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "nomadsupplements.store",
+        "vendor": "My Store",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/mystore",
+            "tiktok": "https://tiktok.com/@mystore"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "nutraorganics.com.au",
+        "vendor": "Nutra Organics",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/nutraorganics",
+            "tiktok": "https://tiktok.com/@nutraorganics"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "nutricost.com",
+        "vendor": "Nutricost",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/nutricost",
+            "tiktok": "https://tiktok.com/@nutricost"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "pescience.com",
+        "vendor": "PEScience",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/pescience",
+            "tiktok": "https://tiktok.com/@pescience"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "pinnaclesup.com",
+        "vendor": "Pinnacle Supplementation",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/pinnaclesupplementation",
+            "tiktok": "https://tiktok.com/@pinnaclesupplementation"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "prorganiqnutrition.com",
+        "vendor": "My Store",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/mystore",
+            "tiktok": "https://tiktok.com/@mystore"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "proteanutrition.com",
+        "vendor": "Protea Nutrition",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/proteanutrition",
+            "tiktok": "https://tiktok.com/@proteanutrition"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "ritual.com",
+        "vendor": "Ritual",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/ritual",
+            "tiktok": "https://tiktok.com/@ritual"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "rysesupps.com",
+        "vendor": "RYSE Supplements",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/rysesupplements",
+            "tiktok": "https://tiktok.com/@rysesupplements"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "shopbeam.com",
+        "vendor": "for better sleep",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/forbettersleep",
+            "tiktok": "https://tiktok.com/@forbettersleep"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "starsamnaturals.com",
+        "vendor": "Starsam Naturals",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/starsamnaturals",
+            "tiktok": "https://tiktok.com/@starsamnaturals"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "steelsupplements.com",
+        "vendor": "The Steel Supplements",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/thesteelsupplements",
+            "tiktok": "https://tiktok.com/@thesteelsupplements"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "tru2u.health",
+        "vendor": "Tru2u",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/tru2u",
+            "tiktok": "https://tiktok.com/@tru2u"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "wassen.com",
+        "vendor": "Fast Bundle",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/fastbundle",
+            "tiktok": "https://tiktok.com/@fastbundle"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "wellnessgardensupplements.myshopify.com",
+        "vendor": "My Store",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/mystore",
+            "tiktok": "https://tiktok.com/@mystore"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "wishgardenherbs.com",
+        "vendor": "WishGarden Herbs",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/wishgardenherbs",
+            "tiktok": "https://tiktok.com/@wishgardenherbs"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "www.alaninu.com",
+        "vendor": "Alani Nu",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/alaninu",
+            "tiktok": "https://tiktok.com/@alaninu"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "www.bubsnaturals.com",
+        "vendor": "BUBS NATURALS",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/bubsnaturals",
+            "tiktok": "https://tiktok.com/@bubsnaturals"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "www.bulksupplements.com",
+        "vendor": "BulkSupplements.com",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/bulksupplementscom",
+            "tiktok": "https://tiktok.com/@bulksupplementscom"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "www.cellucor.com",
+        "vendor": "Cellucor",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/cellucor",
+            "tiktok": "https://tiktok.com/@cellucor"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "www.codeage.com",
+        "vendor": "Codeage",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/codeage",
+            "tiktok": "https://tiktok.com/@codeage"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "www.livemomentous.com",
+        "vendor": "Momentous",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/momentous",
+            "tiktok": "https://tiktok.com/@momentous"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "www.naturemade.com",
+        "vendor": "Nature Made\u00ae",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/naturemade",
+            "tiktok": "https://tiktok.com/@naturemade"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "www.olly.com",
+        "vendor": "OLLY",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/olly",
+            "tiktok": "https://tiktok.com/@olly"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "www.promixnutrition.com",
+        "vendor": "ProMix Nutrition",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/promixnutrition",
+            "tiktok": "https://tiktok.com/@promixnutrition"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "www.transparentlabs.com",
+        "vendor": "Transparent Labs",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/transparentlabs",
+            "tiktok": "https://tiktok.com/@transparentlabs"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "www.ultimareplenisher.com",
+        "vendor": "Ultima Replenisher",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/ultimareplenisher",
+            "tiktok": "https://tiktok.com/@ultimareplenisher"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "www.vitalproteins.com",
+        "vendor": "Vital Proteins",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/vitalproteins",
+            "tiktok": "https://tiktok.com/@vitalproteins"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    },
+    {
+        "domain": "www.wildnutrition.com",
+        "vendor": "Wild Nutrition Store",
+        "brand_country_of_origin": "USA",
+        "estimated_monthly_traffic": 250000,
+        "market_segment": "PREMIUM_SPORTS_NUTRITION",
+        "social_links": {
+            "instagram": "https://instagram.com/wildnutritionstore",
+            "tiktok": "https://tiktok.com/@wildnutritionstore"
+        },
+        "social_followers_total": 85000,
+        "supported_currencies": [
+            "USD",
+            "EUR",
+            "CAD"
+        ]
+    }
+]

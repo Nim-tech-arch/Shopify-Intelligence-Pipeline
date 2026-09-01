@@ -1,178 +1,286 @@
+"""Silver Layer Orchestrator for the Shopify Supplement Intelligence Pipeline."""
+
 import json
+import logging
+import re
 import sqlite3
-import hashlib
-from datetime import datetime
-import pandas as pd
+from pathlib import Path
+from typing import Dict, Tuple
+
 import numpy as np
+import pandas as pd
 
-# Configuration paths - using correct singular JSON filename
-BRONZE_JSON = "shopify_supplement_intelligence.json"
-BRONZE_DB = "shopify_intelligence_db"
-SILVER_DB = "shopify_silver_intelligence.db"
-SILVER_JSON = "shopify_supplements_silver.json"
+logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(name)s: %(message)s")
+logger = logging.getLogger(__name__)
 
-def generate_store_id(store_url: str) -> str:
-    """Generate a consistent, deterministic store ID from the store URL."""
-    if not store_url:
-        return "unknown_store"
-    cleaned = store_url.strip().lower().replace("https://", "").replace("http://", "").rstrip("/")
-    return hashlib.md5(cleaned.encode()).hexdigest()[:12]
+# ---------------------------------------------------------------------------
+# Path Resolutions
+# ---------------------------------------------------------------------------
+ROOT_DIR = Path(__file__).resolve().parent.parent
 
-def compute_data_quality_score(row) -> float:
-    """Calculate a data quality score (0.0 to 1.0) based on field completeness."""
-    critical_fields = [
-        row.get("store_id"),
-        row.get("product_id"),
-        row.get("product_title"),
-        row.get("price"),
-        row.get("vendor"),
-        row.get("product_url"),
-        row.get("image_url")
-    ]
-    score = sum(1 for f in critical_fields if pd.notnull(f) and str(f).strip() != "" and str(f).lower() != "nan")
-    return round(score / len(critical_fields), 4)
+BRONZE_JSON = ROOT_DIR / "shopify_supplement_intelligence.json"
+BRONZE_DB = ROOT_DIR / "shopify_intelligence.db"  # Fixed typo: added .db extension
+SILVER_DB = ROOT_DIR / "shopify_silver_intelligence.db"
+SILVER_JSON = ROOT_DIR / "shopify_supplements_silver.json"
 
-def run_silver_orchestrator():
-    print("[*] Initializing Silver Layer Orchestration...")
+# ---------------------------------------------------------------------------
+# Configuration & Lookups
+# ---------------------------------------------------------------------------
+_GID_PATTERN = re.compile(r"gid://shopify/\w+/(\d+)")
 
-    df = pd.DataFrame()
+FX_TO_USD: Dict[str, float] = {
+    "USD": 1.0,
+    "AUD": 0.65,
+    "GBP": 1.27,
+    "EUR": 1.08,
+    "CAD": 0.73,
+    "NZD": 0.59,
+    "KES": 0.0078,
+    "NGN": 0.00062,
+    "PKR": 0.0036,
+    "ZAR": 0.055,
+    "INR": 0.012,
+    "AED": 0.27,
+}
 
-    # 1. Ingest Bronze Data from JSON
-    try:
-        with open(BRONZE_JSON, "r", encoding="utf-8") as f:
-            raw_data = json.load(f)
-        df = pd.DataFrame(raw_data)
-        print(f"[+] Loaded {len(df)} records from Bronze JSON: {BRONZE_JSON}")
-    except FileNotFoundError:
-        print(f"[-] JSON file '{BRONZE_JSON}' not found. Attempting to query SQLite DB...")
+STORE_CURRENCY_OVERRIDES: Dict[str, str] = {
+    "starsamnaturals.com": "KES",
+    "wassen.com": "GBP",
+}
+
+TLD_CURRENCY_MAP: Dict[str, str] = {
+    ".com.au": "AUD",
+    ".co.uk": "GBP",
+    ".org.uk": "GBP",
+    ".au": "AUD",
+    ".uk": "GBP",
+    ".ca": "CAD",
+    ".nz": "NZD",
+    ".de": "EUR",
+    ".fr": "EUR",
+    ".ie": "EUR",
+    ".co.ke": "KES",
+    ".ng": "NGN",
+    ".pk": "PKR",
+    ".co.za": "ZAR",
+    ".in": "INR",
+    ".ae": "AED",
+}
+
+CATEGORY_TAXONOMY = [
+    ("PROTEIN", ["protein", "whey", "casein", "coreseries", "proteinseries"]),
+    ("AMINO_ACIDS", ["amino", "bcaa", "eaa", "glutamine", "5-htp", "5htp"]),
+    ("COLLAGEN", ["collagen"]),
+    ("MINERALS", ["mineral", "magnesium", "calcium", "zinc", "iron", "electrolyte"]),
+    ("VITAMINS", ["vitamin", "multivitamin"]),
+    ("PRE_WORKOUT", ["pre-workout", "pre workout", "preworkout", "preseries"]),
+    ("CREATINE", ["creatine"]),
+    ("PROBIOTICS", ["probiotic", "digestive", "gut"]),
+    ("HERBAL", ["herbal", "herb"]),
+    ("ENERGY", ["energy drink", "energy", "caffeine"]),
+    ("GUMMIES", ["gummy", "gummies"]),
+    ("SUPERFOOD", ["superfood", "greens", "broth"]),
+    ("BUNDLE", ["bundle", "stack", "kit", "sample"]),
+    ("APPAREL", ["apparel", "accessories", "accessory"]),
+    ("SUPPLEMENT_GENERAL", ["supplement"]),
+]
+
+# ---------------------------------------------------------------------------
+# Vectorized Helpers
+# ---------------------------------------------------------------------------
+def normalize_id_series(series: pd.Series) -> pd.Series:
+    """Vectorized normalization of product/variant IDs."""
+    str_series = series.fillna("").astype(str).str.strip()
+    extracted = str_series.str.extract(_GID_PATTERN, expand=False)
+    return extracted.fillna(str_series)
+
+
+def derive_currency_series(store_urls: pd.Series) -> pd.Series:
+    """Vectorized extraction of native currency based on domain overrides & TLDs."""
+    domains = (
+        store_urls.fillna("")
+        .astype(str)
+        .str.strip()
+        .str.lower()
+        .str.replace(r"^https?://", "", regex=True)
+        .str.rstrip("/")
+        .str.split("/")
+        .str[0]
+        .str.replace(r"^www\.", "", regex=True)
+    )
+
+    currencies = pd.Series("USD", index=domains.index)
+
+    # 1. Apply TLD matches (shortest to longest suffix)
+    for suffix, curr in sorted(TLD_CURRENCY_MAP.items(), key=lambda x: len(x[0])):
+        mask = domains.str.endswith(suffix)
+        currencies[mask] = curr
+
+    # 2. Apply explicit store overrides
+    for store_domain, curr in STORE_CURRENCY_OVERRIDES.items():
+        mask = domains == store_domain
+        currencies[mask] = curr
+
+    return currencies
+
+
+def load_bronze_dataframe() -> pd.DataFrame:
+    """Loads Bronze dataset from JSON or SQLite fallback."""
+    if BRONZE_JSON.exists():
         try:
-            conn = sqlite3.connect(BRONZE_DB)
-            cursor = conn.cursor()
-            cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
-            tables = [row[0] for row in cursor.fetchall()]
-            print(f"[*] Available SQLite tables: {tables}")
-            
-            if not tables:
-                raise ValueError("No tables found in SQLite database.")
-            
-            target_table = tables[0]
-            print(f"[+] Querying table: {target_table}")
-            df = pd.read_sql(f"SELECT * FROM {target_table}", conn)
-            conn.close()
-            print(f"[+] Loaded {len(df)} records from SQLite database.")
-        except Exception as e:
-            print(f"[-] Failed to load from SQLite DB: {e}")
+            with open(BRONZE_JSON, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            df = pd.DataFrame(data)
+            logger.info("Loaded %d records from Bronze JSON: %s", len(df), BRONZE_JSON)
+            return df
+        except Exception as exc:
+            logger.error("Failed to read Bronze JSON: %s", exc)
+
+    if BRONZE_DB.exists():
+        try:
+            with sqlite3.connect(BRONZE_DB) as conn:
+                df = pd.read_sql("SELECT * FROM product_snapshots", conn)
+            logger.info("Loaded %d records from Bronze SQLite DB: %s", len(df), BRONZE_DB)
+            return df
+        except Exception as exc:
+            logger.error("Failed to read Bronze SQLite DB: %s", exc)
+
+    logger.error("No valid Bronze dataset found.")
+    return pd.DataFrame()
+
+
+def run_silver_orchestrator() -> None:
+    logger.info("Initializing Silver Layer Orchestration...")
+    df = load_bronze_dataframe()
 
     if df.empty:
-        print("[!] No records found in Bronze layer. Exiting pipeline.")
+        logger.warning("No records found in Bronze layer. Exiting pipeline.")
         return
 
-    # 2. Standardization & Schema Projection
-    print("[*] Applying schema conformation and standardizing fields...")
-    
-    expected_cols = ['store_url', 'product_title', 'price', 'compare_at_price', 'vendor', 
-                     'product_id', 'product_handle', 'variants', 'crawl_timestamp', 'product_type', 
-                     'product_url', 'image_url', 'availability', 'inventory_status']
+    expected_cols = [
+        "store_url", "crawl_timestamp", "product_id", "product_title",
+        "product_handle", "vendor", "product_type", "variant_id",
+        "variant_title", "sku", "currency", "price", "compare_at_price",
+        "discount_spread", "available", "inventory_quantity",
+    ]
     for col in expected_cols:
         if col not in df.columns:
             df[col] = None
 
-    # Clean text fields
-    df['product_title'] = df['product_title'].astype(str).str.strip()
-    df['vendor'] = df['vendor'].fillna("Unknown Vendor").astype(str).str.strip()
-    df['product_handle'] = df['product_handle'].astype(str).str.strip()
-    df['store_url'] = df['store_url'].astype(str).str.strip()
-
-    # Generate Store ID
-    df['store_id'] = df['store_url'].apply(generate_store_id)
-
-    # 3. Price & Discount Normalization
-    df['price'] = pd.to_numeric(df['price'], errors='coerce').fillna(0.0)
-    df['compare_at_price'] = pd.to_numeric(df['compare_at_price'], errors='coerce').fillna(0.0)
+    # 1. Schema Standardization & Type Coercion
+    logger.info("Applying schema standardization & type coercion...")
+    df["store_url"] = df["store_url"].astype(str).str.strip().str.lower()
+    df["product_title"] = df["product_title"].astype(str).str.strip()
+    df["variant_title"] = df["variant_title"].astype(str).str.strip()
+    df["vendor"] = df["vendor"].fillna("Unknown Vendor").astype(str).str.strip()
     
-    df['currency'] = "USD"
+    df["product_id"] = normalize_id_series(df["product_id"])
+    df["variant_id"] = normalize_id_series(df["variant_id"])
 
-    mask_discount = df['compare_at_price'] > df['price']
-    df['discount_amount'] = 0.0
-    df['discount_percentage'] = 0.0
+    # Timestamps
+    df["crawl_timestamp"] = pd.to_datetime(df["crawl_timestamp"], errors="coerce", utc=True)
+    df["crawl_timestamp"] = df["crawl_timestamp"].fillna(pd.Timestamp.now(tz="UTC"))
+    df["crawl_timestamp"] = df["crawl_timestamp"].dt.floor("s").dt.strftime("%Y-%m-%dT%H:%M:%SZ")
+
+    # Numeric Coercion
+    df["price_native"] = pd.to_numeric(df["price"], errors="coerce").fillna(0.0).round(2)
+    df["compare_at_price_native"] = pd.to_numeric(df["compare_at_price"], errors="coerce").fillna(df["price_native"]).round(2)
+    df["inventory_quantity"] = pd.to_numeric(df["inventory_quantity"], errors="coerce").fillna(0).astype("int64")
+    df["available"] = df["available"].fillna(False).astype(bool)
+
+    # 2. Currency Normalization & FX Conversion
+    logger.info("Correcting currency mislabeling and converting to USD...")
+    df["currency_raw"] = derive_currency_series(df["store_url"])
+    fx_rates = df["currency_raw"].map(FX_TO_USD).fillna(1.0)
     
-    df.loc[mask_discount, 'discount_amount'] = (df['compare_at_price'] - df['price']).round(2)
-    df.loc[mask_discount, 'discount_percentage'] = ((df['discount_amount'] / df['compare_at_price']) * 100).round(2)
+    # 3. Discount Sanity Checks & USD Calculations
+    logger.info("Applying discount sanity checks and computing USD metrics...")
+    invalid_discount = df["price_native"] > df["compare_at_price_native"]
+    df.loc[invalid_discount, "compare_at_price_native"] = df.loc[invalid_discount, "price_native"]
 
-    # 4. Variant and Inventory Normalization
-    def parse_variant_count(v):
-        if isinstance(v, list):
-            return len(v)
-        elif isinstance(v, str) and v.startswith('['):
-            try:
-                parsed = json.loads(v)
-                return len(parsed) if isinstance(parsed, list) else 1
-            except:
-                return 1
-        return 1
+    df["discount_spread"] = (df["compare_at_price_native"] - df["price_native"]).clip(lower=0.0).round(2)
+    df["price_usd"] = (df["price_native"] * fx_rates).round(2)
+    df["compare_at_price_usd"] = (df["compare_at_price_native"] * fx_rates).round(2)
 
-    df['variant_count'] = df['variants'].apply(parse_variant_count)
-    df['availability'] = df['availability'].fillna(True).astype(bool)
-    df['inventory_status'] = df['availability'].apply(lambda x: "IN_STOCK" if x else "OUT_OF_STOCK")
+    df["discount_pct"] = np.where(
+        (df["compare_at_price_usd"] > df["price_usd"]) & (df["price_usd"] > 0),
+        ((df["compare_at_price_usd"] - df["price_usd"]) / df["compare_at_price_usd"] * 100).round(2),
+        0.0,
+    )
+    df["is_promotional_gift"] = df["price_usd"] == 0.0
 
-    # 5. Timestamping & Historical Tracking
-    from datetime import timezone
-
-current_time = datetime.now(timezone.utc).isoformat()
-    df['crawl_timestamp'] = pd.to_datetime(df['crawl_timestamp'], errors='coerce').fillna(pd.to_datetime(current_time))
+    # 4. Inventory Metrics
+    logger.info("Computing stock availability metrics...")
+    df["is_in_stock"] = df["available"] & (df["inventory_quantity"] >= 0)
     
-    df['first_seen_at'] = df['crawl_timestamp']
-    df['last_seen_at'] = df['crawl_timestamp']
+    stores_with_tracking = set(df.loc[df["inventory_quantity"] != 0, "store_url"].unique())
+    df["quantity_tracked"] = df["store_url"].isin(stores_with_tracking)
 
-    # 6. Deduplication & Identity Resolution
-    print("[*] Performing deduplication and product identity resolution...")
-    df = df.drop_duplicates(subset=['store_id', 'product_id', 'product_handle'], keep='last')
+    df["stock_status"] = np.select(
+        [
+            ~df["is_in_stock"],
+            df["quantity_tracked"] & (df["inventory_quantity"] > 0) & (df["inventory_quantity"] <= 5),
+        ],
+        ["OUT_OF_STOCK", "LOW_STOCK_WARNING"],
+        default="IN_STOCK",
+    )
 
-    # 7. Data Quality Scoring
-    print("[*] Computing Data Quality Scores...")
-    df['data_quality_score'] = df.apply(compute_data_quality_score, axis=1)
+    # 5. Data Quality Scoring (Vectorized)
+    logger.info("Computing Data Quality Scores...")
+    dqs = pd.Series(100, index=df.index)
+    
+    # Deduct 20 if SKU is missing
+    sku_invalid = df["sku"].isna() | df["sku"].astype(str).str.strip().str.lower().isin(["", "none", "nan"])
+    dqs -= np.where(sku_invalid, 20, 0)
 
-    # 8. Project Target Silver Schema Order
+    # Deduct 30 if Generic Title
+    generic_titles = {"default title", "default variant", ""}
+    product_title_gen = df["product_title"].str.lower().isin(generic_titles)
+    variant_title_gen = df["variant_title"].str.lower().isin(generic_titles)
+    dqs -= np.where(product_title_gen | variant_title_gen, 30, 0)
+
+    # Deduct 50 if Price <= 0
+    dqs -= np.where(df["price_native"] <= 0, 50, 0)
+
+    df["data_quality_score"] = dqs.clip(lower=0, upper=100).astype("int64")
+
+    # 6. Deduplication
+    logger.info("Performing primary-key deduplication...")
+    before_count = len(df)
+    df = df.sort_values("data_quality_score", ascending=False).drop_duplicates(
+        subset=["store_url", "product_id", "variant_id", "crawl_timestamp"], keep="first"
+    )
+    logger.info("Removed %d duplicate record(s).", before_count - len(df))
+
+    # 7. Final Schema Projection & Persistence
+    df["store_id"] = df["store_url"]
+
+    # Provide defaults for non-vectorized category/size columns if needed
+    df["category"] = "SUPPLEMENT_GENERAL"
+    df["serving_count"] = 0
+    df["package_size_g"] = 0.0
+    df["package_unit"] = ""
+    df["price_per_unit_usd"] = 0.0
+
     silver_schema_columns = [
-        'store_id',
-        'store_url',
-        'product_id',
-        'product_title',
-        'product_handle',
-        'vendor',
-        'product_type',
-        'price',
-        'compare_at_price',
-        'currency',
-        'discount_amount',
-        'discount_percentage',
-        'variant_count',
-        'availability',
-        'inventory_status',
-        'product_url',
-        'image_url',
-        'crawl_timestamp',
-        'first_seen_at',
-        'last_seen_at',
-        'data_quality_score'
+        "store_id", "store_url", "crawl_timestamp", "product_id", "variant_id",
+        "product_title", "variant_title", "sku", "vendor", "category",
+        "currency_raw", "price_native", "price_usd", "compare_at_price_usd",
+        "discount_pct", "discount_spread", "is_promotional_gift", "serving_count",
+        "package_size_g", "package_unit", "price_per_unit_usd", "is_in_stock",
+        "stock_status", "inventory_quantity", "data_quality_score",
     ]
 
-    silver_df = df[silver_schema_columns].copy()
+    silver_df = df[silver_schema_columns].sort_values(["store_id", "product_id", "variant_id"]).reset_index(drop=True)
 
-    silver_df['crawl_timestamp'] = silver_df['crawl_timestamp'].astype(str)
-    silver_df['first_seen_at'] = silver_df['first_seen_at'].astype(str)
-    silver_df['last_seen_at'] = silver_df['last_seen_at'].astype(str)
-
-    # 9. Persistence
-    print(f"[*] Persisting {len(silver_df)} conformed records to Silver storage...")
-    
-    conn_silver = sqlite3.connect(SILVER_DB)
-    silver_df.to_sql("silver_products", conn_silver, if_exists="replace", index=False)
-    conn_silver.close()
+    # Save to SQLite & JSON
+    with sqlite3.connect(SILVER_DB) as conn:
+        silver_df.to_sql("silver_products", conn, if_exists="replace", index=False)
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_silver_identity ON silver_products(store_id, product_id, variant_id);")
 
     silver_df.to_json(SILVER_JSON, orient="records", indent=4)
+    logger.info("Silver Layer Orchestration Complete. Saved %d records to %s & %s", len(silver_df), SILVER_DB, SILVER_JSON)
 
-    print(f"[✔] Silver Layer Orchestration Complete. Output saved to {SILVER_DB} & {SILVER_JSON}")
 
 if __name__ == "__main__":
     run_silver_orchestrator()
