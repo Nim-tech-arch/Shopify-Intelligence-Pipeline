@@ -1,168 +1,154 @@
-# 🚀 Shopify Intelligence Pipeline (SIP)
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/1aa8cd56-009c-4864-90f9-cb2417bfcb9b" />
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/1bf8ff72-a6c1-4262-bc81-9276792f2c2f" />
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/f3c70472-b96a-4fe3-91d5-c14bdb43e4e9" />
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/491a4509-4123-4fb2-b62a-2936a5e8c151" />
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/6634e59f-1e14-4b3a-a514-43716ea54512" />
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/aa5104db-6bb9-4778-8579-f27a2995d04a" />
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/20fe8a89-9787-4f94-acb3-6790597a75c3" />
 
-## Production-Grade Commercial Intelligence for Direct-to-Consumer (DTC) Brands
 
-The **Shopify Intelligence Pipeline (SIP)** is an enterprise end-to-end data platform that transforms fragmented e-commerce activity, pricing volatility, and multi-channel market signals into structured, historical, and decision-ready commercial intelligence.
+**🚀 Supplement Brand Intelligence Engine (SBIE)**
+End-to-End Market & Commercial Intelligence for Shopify Supplement Brands
+The Supplement Brand Intelligence Engine (SBIE) is a purpose-built commercial intelligence platform designed specifically for Direct-to-Consumer (DTC) Supplements, Sports Nutrition, and Wellness brands operating on Shopify.
 
-Designed specifically for hyper-competitive e-commerce verticals—starting with **Supplements & Sports Nutrition**—SIP continuously monitors competitor storefronts and enriches raw observations with external market signals. It bridges the gap between raw web extraction and actionable business decisions by exposing a multi-tenant, event-driven FastAPI serving layer.
+Rather than treating e-commerce monitoring as a generic web-scraping task, SBIE solves the specific domain problems of the supplement industry: flavor and serving-size variant shifts, ingredient-level pricing compression, hidden promotional discounting, and uncoordinated ad spend bursts by competitors.
 
----
+**🎯 The Real Problem: Fragmented Intelligence in the Supplement Market**
+Supplement brands face hyper-competitive pressure with razor-thin margins. Legacy e-commerce tools track simple price tags, but completely fail to capture how supplement products are actually sold and bought.
 
-## 🎯 The Real Problem: The Blind Spot of E-Commerce Dynamics
+**Plaintext**
+ Competitor Storefronts, Ad Platforms, & Market Signals
+                           │
+                           ▼
+   ❌ Legacy Scrapers & Generic E-Commerce Tools
+                           │
+ ┌─────────────────────────┴─────────────────────────┐
+ │ ❌ Misses Servings vs. Container Size Math        │
+ │ ❌ Fails to Track Hidden Sub-and-Save Discounts   │
+ │ ❌ Blind to Flavor/Variant Assortment Expansions  │
+ │ ❌ No Context Between Price Drops & Paid Ad Drops │
+ └─────────────────────────┬─────────────────────────┘
+                           ▼
+ 💸 Reactive Merchandising, Wasted Ad Spend, & Margin Loss
+Critical Questions Generic Tools Fail to Answer:
+Cost-Per-Serving & Ingredient Arbitrage: "Did a competitor drop their Creatine price, or did they quietly reduce the tub from 60 servings to 45 servings while keeping the MSRP at $29.99?"
 
-E-commerce brands lose millions annually to **unseen competitor moves** and **siloed market signals**. Brand managers, pricing strategists, and merchandising teams routinely face critical operational friction:
+Stockout Conquesting: "Which key competitor SKUs (e.g., Grass-Fed Whey Isolate, Unflavored Electroytes) went out of stock today so we can immediately conquest their branded search ads?"
 
-```text
-  Competitor Storefronts & External Web Signals
-                       │
-                       ▼
-          Manual Observation & Scraping
-                       │
-                       ▼
-  ❌ No Historical Audit Trail / Point-in-Time State
-  ❌ Inability to Measure Real-Time Volatility
-  ❌ Lack of External Context (Ads, Sentiment, SEO)
-  ❌ Blind Reactive Pricing & Merchandising
-The Questions Current E-Commerce Tools Fail to Answer:
-Pricing & Margin Pressure: "Which competitors silently dropped prices or altered discount margins in the last 24 hours?"
+Flavor & Variant Expansion: "What new flavor variants or bundle configurations are top-performing brands launching and backing with heavy paid ad spend?"
 
-Inventory & Out-of-Stock Arbitrage: "Which high-demand competitor SKUs are currently out of stock, presenting an immediate ad-spend opportunity?"
+Holistic Commercial Context: "Is a competitor's price drop backed by a massive Meta/TikTok creative blitz, declining customer sentiment around 'taste/clumping,' or an organic SEO push?"
 
-Assortment Gaps: "Which flavor/size variants are competitors expanding into before market saturation occurs?"
-
-Holistic Intelligence: "Is a competitor's price drop backed by paid ad acceleration, declining customer sentiment, or organic search dominance?"
-
-🏗️ Architectural Topology: Medallion + Enrichment + Serving
-SIP processes millions of raw signals into trusted analytical data products using a Medallion Data Architecture (Bronze → Silver → Gold) extended with multi-domain enrichment and secure multi-tenant API serving.
+🏗️ Domain-Engineered Architecture
+SBIE processes raw storefront signals, multi-domain supplement market data, and promotional activity into decision-ready business intelligence.
 
 Plaintext
-               ┌────────────────────────────────────────┐
-               │    SHOPIFY STOREFRONTS & WEB SOURCES   │
-               └───────────────────┬────────────────────┘
-                                   │
-                                   ▼
-               ┌────────────────────────────────────────┐
-               │         INGESTION (Async HTTP/2)       │
-               │   GraphQL / Storefront API / Fallback   │
-               └───────────────────┬────────────────────┘
-                                   │
-                                   ▼
-               ┌────────────────────────────────────────┐
-               │        BRONZE DATA LAKE (Raw)          │
-               │ Immutable payload preserving evidence  │
-               └───────────────────┬────────────────────┘
-                                   │
-                                   ▼
-               ┌────────────────────────────────────────┐
-               │     SILVER DATA LAKE (Canonical)       │
-               │   Deduplicated, Schema-Enforced, SCD2   │
-               └───────────────────┬────────────────────┘
-                                   │
-                                   ▼
+                ┌────────────────────────────────────────┐
+                │   SHOPIFY STOREFRONTS & WEB SOURCES    │
+                │  (Nutritional, Active SKUs, Variants)  │
+                └───────────────────┬────────────────────┘
+                                    │
+                                    ▼
+                ┌────────────────────────────────────────┐
+                │          INGESTION & CAPTURE           │
+                │  Async Storefront API & Schema Normal  │
+                └───────────────────┬────────────────────┘
+                                    │
+                                    ▼
+                ┌────────────────────────────────────────┐
+                │     BRONZE LAKE — Audit & Provenance   │
+                │ Raw Storefront State & Historical Evidence │
+                └───────────────────┬────────────────────┘
+                                    │
+                                    ▼
+                ┌────────────────────────────────────────┐
+                │    SILVER LAKE — Supplement Canonical  │
+                │ Servings Normalization, SKU & Variant   │
+                │         Identity (SCD Type 2)          │
+                └───────────────────┬────────────────────┘
+                                    │
+                                    ▼
 ┌───────────────────────────────────────────────────────────────────────┐
-│                          ENRICHMENT LAYER                             │
-│   Pricing Metrics │ Sentiment & Reviews │ SEO & Organic Visibility    │
-│   Paid Ad Spends  │ Social Engagement   │ Geo & Currency Arbitrage    │
+│                    SUPPLEMENT ENRICHMENT ENGINE                       │
+│  Serving Economics │ Review Sentiment (Taste/Mixability) │ SEO Rank    │
+│  Paid Ad Velocity │ Social Reach & Influencer Volume   │ Geo Arbitrage│
 └──────────────────────────────────┬────────────────────────────────────┘
-                                   │
-                                   ▼
-               ┌────────────────────────────────────────┐
-               │        GOLD DATA LAKE (Decision)       │
-               │     Parquet Analytic Cubes & Models    │
-               └───────────────────┬────────────────────┘
-                                   │
-                                   ▼
-               ┌────────────────────────────────────────┐
-               │        MULTI-TENANT SERVING API        │
-               │ FastAPI, HMAC Webhooks, Row Isolation  │
-               └────────────────────────────────────────┘
-💼 End-to-End Pipeline Breakdown
-🥉 1. Bronze Layer — Raw Evidence Preservation
-Preserves raw HTTP/GraphQL JSON payloads directly from target storefronts without modification. This guarantees absolute data lineage, auditability, and replay capability.
+                                    │
+                                    ▼
+                ┌────────────────────────────────────────┐
+                │     GOLD LAKE — Commercial Cubes       │
+                │  Price Drops, Stockout Opportunities,  │
+                │       Assortment Gap Analysis          │
+                └───────────────────┬────────────────────┘
+                                    │
+                                    ▼
+                ┌────────────────────────────────────────┐
+                │       MULTI-TENANT SERVING LAYER       │
+                │    FastAPI, Webhooks, Row Isolation    │
+                └────────────────────────────────────────┘
+💼 Core Intelligence Pipeline Breakdown
+🥉 1. Bronze Layer — Raw Market Provenance
+Captures and preserves raw, point-in-time storefront state. Ensures complete legal auditability and historical verification of competitor changes over time.
 
-Key Fields: store_url, crawl_timestamp, source_endpoint, crawl_id, raw_payload.
+🥈 2. Silver Layer — Supplement Canonical Standard
+Transforms raw e-commerce schemas into a normalized data model built around supplement purchasing behavior.
 
-🥈 2. Silver Layer — Canonical E-Commerce Standard
-Transforms heterogeneous, volatile storefront schemas into a unified, clean analytical contract.
+Serving & Size Normalization: Standardizes variants across serving counts, container weights (grams/lbs), and bundle packages.
 
-Deduplication & Data Integrity: Implements strict identity matching across SKUs and variant IDs to prevent metrics inflation.
+Longitudinal Tracking (SCD Type 2): Tracks price shifts, compare-at-price adjustments, and hidden unit-economic changes over time.
 
-Product Snapshots: Converts point-in-time observations into longitudinal historical trends (Slowly Changing Dimensions).
+Data Contracts: Enforces clean separation between single products, multi-packs, and subscription variants.
 
-Data Schema:
+🧠 3. Supplement Market Enrichment Engine
+Enriches product-level observations with 8 essential commercial domains:
 
-Store (store_id, domain, crawl_timestamp)
+Customer Reviews & Sentiment Analysis: Tracks review velocity and specific sentiment clusters critical to nutrition products ("taste," "mixability," "clumping," "stomach distress").
 
-Product (product_id, title, handle, vendor, product_type)
+Paid Ad Creative Velocity: Monitors active ad variations across Meta, TikTok, and Google, highlighting long-running, high-converting copy and creative concepts.
 
-Variant (variant_id, sku, price, compare_at_price, available, inventory_quantity)
+SEO & Search Intent: Evaluates organic performance for high-intent supplement keywords (e.g., "grass-fed whey isolate," "sugar-free electrolytes").
 
-🧠 3. Enrichment Engine — Multi-Domain Context
-Anchors internal canonical products to 8 external intelligence domains to convert price points into commercial context:
+Social & Influencer Volume: Measures brand cross-platform traction, viral social coefficients, and influencer channel reach.
 
-Customer Reviews & Sentiment: Analyzes review ratings and customer key-phrase sentiment (e.g., taste, delivery).
+Geographical & Currency Arbitrage: Identifies cross-border pricing spreads (USD, GBP, EUR) for brands scaling international exports.
 
-Brand Reputation & Market Positioning: Benchmarks relative market authority and tier placement.
+Brand Reputation & Positioning: Benchmarks positioning against direct market tiers (e.g., Premium Clinical, Mass Market, Natural/Organic).
 
-SEO & Search Visibility: Captures organic target keyword rankings, search volume, and transaction intent.
+Competitor Similarity Engine: Automatically maps substitute SKUs using vector similarity across formula positioning, ingredients, and target use-cases.
 
-Social Engagement: Monitors cross-platform reach, viral coefficients, and social volume.
+Macro Trend Velocities: Identifies broader category growth trends across emerging active ingredients and dietary callouts.
 
-Paid Ad Intelligence: Tracks active creative counts, platforms (Meta, TikTok, Google), and longest-running ad copy.
+🥇 4. Gold Layer — Actionable Business Data Products
+Exposes high-level data models optimized directly for brand operations:
 
-Geographical & Currency Arbitrage: Analyzes multi-region pricing spreads (USD, GBP, EUR) for export positioning.
+pricing_opportunities/: Real-time price drops, margin shifts, and unit-economic changes.
 
-Cross-Brand Benchmarking: Identifies direct functional competitors using vector/attribute similarity.
+inventory_intelligence/: Immediate stockout tracking to trigger targeted ad conquest campaigns.
 
-Market Trend Velocities: Models macro demand changes across product categories.
+discount_opportunities/: Promotional cadence, gift-with-purchase (GWP) tracking, and sale cycles.
 
-🥇 4. Gold Layer — Business-Ready Data Products
-Aggregates enriched signals into highly optimized Parquet files structured around core merchant workflows:
+competitive_intelligence/: Comprehensive multi-signal brand scorecards.
 
-competitive_pricing/: Price drops, margin compression, relative position.
+⚡ Multi-Tenant Serving API & Integration
+SBIE provides safe, role-based access to commercial intelligence via an asynchronous FastAPI serving layer with tenant isolation.
 
-inventory_intelligence/: Stockout tracking, inventory risk factors.
+🔑 Enterprise Security & Isolation
+Authentication: Header-based authorization (x-api-key) utilizing constant-time comparison routines to prevent timing exploits.
 
-discount_opportunities/: Historical promotional trends and discount cadence.
+Strict Tenant Isolation: Data returned is scoped strictly by merchant_id and authorized store domains.
 
-competitive_intelligence/: Multi-signal brand scorecards.
-
-⚡ Production Serving Layer & API Integration
-SIP provides enterprise-grade data access via an asynchronous, multi-tenant FastAPI serving architecture running over uvicorn.
-
-🔑 Security & Tenant Data Isolation
-Authentication: API Key header validation (x-api-key) enforced via constant-time comparison algorithms to eliminate timing attacks.
-
-Row-Level Isolation: Data responses are strictly isolated by merchant_id and verified against authorized tenant store URLs (store_url).
-
-📸 OpenAPI Interface & Verification Screenshots
-1. API Key Header Authorization Modal (x-api-key)
-Authentication is strictly guarded via HTTP headers across all protected route endpoints.
-
-2. Verified Active Session State
-Confirmation of an authorized tenant session displaying an active header credential.
-
-3. Core Operational Intelligence Endpoints
-Exposes structured analytics categories including Pricing, Inventory, Sentiment, SEO, Paid Ads, and Corporate Intelligence.
-
-4. Interactive Endpoint Catalog
-Full OpenAPI documentation breakdown covering multi-domain analytical routes.
-
-5. Pricing Opportunities Endpoint Execution (GET /api/v1/merchants/{merchant_id}/pricing-opportunities)
-Interactive interface allowing merchants to query pricing variance, market medians, and unit economic benchmarks.
-
-6. Live Enriched Response Payload
-Real-time API response serving canonical product records enriched with multi-platform ad spend, organic visibility index, customer sentiment, and social metrics.
+📸 Live Enriched Payload (Supplement Domain Example)
+Real-time response delivering canonical product metrics combined with ad intelligence, review sentiment, and organic search position:
 
 JSON
 {
   "merchant_id": "transparentlabs",
-  "store_url": "[https://www.transparentlabs.com](https://www.transparentlabs.com)",
+  "store_url": "https://www.transparentlabs.com",
   "record_count": 289,
   "data": [
     {
-      "store_id": "[https://www.transparentlabs.com](https://www.transparentlabs.com)",
-      "store_url": "[https://www.transparentlabs.com](https://www.transparentlabs.com)",
+      "store_id": "https://www.transparentlabs.com",
+      "store_url": "https://www.transparentlabs.com",
       "crawl_timestamp": "2026-09-01T07:31:31Z",
       "product_id": 11675265292,
       "variant_id": 39945573662813,
@@ -194,65 +180,63 @@ JSON
       "estimated_monthly_traffic": 250000,
       "market_segment": "PREMIUM_SPORTS_NUTRITION",
       "social_links": {
-        "instagram": "[https://instagram.com/transparentlabs](https://instagram.com/transparentlabs)",
-        "tiktok": "[https://tiktok.com/@transparentlabs](https://tiktok.com/@transparentlabs)"
+        "instagram": "https://instagram.com/transparentlabs",
+        "tiktok": "https://tiktok.com/@transparentlabs"
       },
       "social_followers_total": 85000
     }
   ]
 }
-🔄 Event-Driven Webhook System
-To enable immediate action without continuous polling, SIP incorporates an outbound event distribution engine:
+🔄 Real-Time Event Webhook Engine
+To convert insights into automated workflows (e.g., automatically adjusting Google Ad spend when a competitor goes out of stock), SBIE provides an event distribution engine:
 
-HMAC-SHA256 Signing: Every outgoing webhook payload is cryptographically signed using a shared secret and passed via X-Webhook-Signature.
+HMAC-SHA256 Signatures: Cryptographically signed payloads (X-Webhook-Signature) verify sender authenticity.
 
-Reliability Guarantees:
+Automated Retries & Backoff: Retries failed webhook deliveries up to 5 times using exponential backoff with jitter.
 
-Exponential Backoff & Jitter: Retries failed deliveries up to 5 attempts with randomized backoff.
+Dead-Letter Queue (DLQ): Safely logs unserviceable delivery endpoints for operator review without dropping data.
 
-Dead-Letter Queue (DLQ): Failed attempts exceeding maximum retries are logged to an operational DLQ for operator analysis.
-
-Idempotency Keys: Every event carries a unique X-Idempotency-Key to prevent duplicate processing downstream.
+Idempotency Safeguards: Every event payload carries a unique X-Idempotency-Key to prevent duplicated downstream actions.
 
 🛠️ Repository Layout
 Plaintext
 .
-├── Shopify-Supplements/              # Core Ingestion Engine
-│   ├── pipeline.py                  # End-to-end crawl pipeline
-│   ├── engine.py                    # Async HTTP/2 crawler execution engine
-│   ├── graphql_client.py            # Shopify Storefront GraphQL handler
-│   ├── normalizer.py               # Raw response transformation
-│   ├── db_manager.py               # SQLite / Bronze lake persistence
-│   └── silver_supplements_orchestrator.py # Bronze -> Silver orchestrator
+├── Shopify-Supplements/              # Ingestion Engine
+│   ├── pipeline.py                   # End-to-end execution pipeline
+│   ├── engine.py                     # Async HTTP/2 storefront capture engine
+│   ├── graphql_client.py             # Shopify Storefront GraphQL handler
+│   ├── normalizer.py                 # Raw store response normalization
+│   ├── db_manager.py                 # Bronze Lake persistence engine
+│   └── silver_supplements_orchestrator.py # Bronze to Silver transformer
 │
-├── shopify_supplements_enrichment/  # Enrichment Engine
-│   ├── pricing_enrichment/          # Price metrics & baseline calculation
-│   ├── external_enrichment/         # 8 Domain intelligence assets (JSON)
-│   │   ├── customer_reviews/
-│   │   ├── brand_reputation/
-│   │   ├── seo_search/
-│   │   ├── social_engagement/
-│   │   ├── ad_intelligence/
-│   │   ├── geographical_arbitrage/
-│   │   ├── competitor_similarity/
-│   │   └── market_trends/
-│   ├── external_enricher.py         # Multi-domain enrichment orchestrator
-│   └── api_clients.py               # External API abstraction gateway
+├── shopify_supplements_enrichment/   # Supplement Intelligence Engine
+│   ├── pricing_enrichment/           # Serving cost & margin calculations
+│   ├── external_enrichment/          # Multi-Domain Market Intelligence
+│   │   ├── customer_reviews/         # Taste, mixability & review extraction
+│   │   ├── brand_reputation/        # Category tiering & brand scoring
+│   │   ├── seo_search/               # Ingredient search volume & rank tracking
+│   │   ├── social_engagement/        # Influencer engagement metrics
+│   │   ├── ad_intelligence/          # Meta, TikTok & Google ad tracker
+│   │   ├── geographical_arbitrage/   # Global cross-border pricing spreads
+│   │   ├── competitor_similarity/    # Vector-based formula/SKU mapping
+│   │   └── market_trends/            # Category & ingredient growth trends
+│   ├── external_enricher.py          # Multi-domain orchestrator
+│   └── api_clients.py                # Intelligence gateway integration
 │
-├── Gold_Lake/                       # Decision-Ready Storage
-│   └── Pricing_Intelligence/        # Standardized Parquet data products
+├── Gold_Lake/                        # Commercial Decision Storage
+│   └── Pricing_Intelligence/         # Business-ready Parquet analytical datasets
 │
-├── app/                             # FastAPI Serving Architecture
-│   ├── main.py                      # FastAPI application & route definitions
-│   ├── security.py                  # API key validation & constant-time checks
-│   └── webhooks.py                  # HMAC signing, retry, & DLQ engine
+├── app/                              # Commercial Serving Layer
+│   ├── main.py                       # FastAPI application & business routes
+│   ├── security.py                   # API key security & constant-time validation
+│   └── webhooks.py                   # HMAC signing, retry engine & DLQ
 │
 └── README.md
 🧭 Core Design Principles
-Business Outcome First: Data acquisition serves specific merchant decisions (e.g., pricing, inventory conquesting).
+Merchant Decisions First: Every metric collected must answer an explicit commercial question around pricing, inventory conquesting, or product expansion.
 
-Raw Evidence Preservation: Source data is immutable in Bronze for total auditability.
+Domain Context Over Raw Data: Raw price changes mean nothing without understanding variant size changes, active paid ad campaigns, and customer review sentiment.
 
-Explicit Data Provenance: The system explicitly tags every metric as OBSERVED (real crawl data), EXTERNAL (live API), or SIMULATED (fallback engine).
+Strict Data Provenance: Every metric is clearly flagged with its origin source: OBSERVED (storefront observations), EXTERNAL (market APIs), or SIMULATED (fallback calculation engines).
 
-Reliability Over Vanity Metrics: Prioritizes strict data deduplication and schema validity over raw volume.
+Reliability & Data Quality: Focuses on clean deduplication, unit normalization, and verified business schema contracts rather than unvalidated raw volume.
