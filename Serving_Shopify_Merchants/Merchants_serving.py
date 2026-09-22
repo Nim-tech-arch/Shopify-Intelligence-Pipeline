@@ -26,6 +26,18 @@ app = FastAPI(
 # Hard limit for public demo queries
 MAX_DEMO_RECORD_LIMIT = 20
 
+# --- LIVENESS PROBE (Requirement 1) ---
+
+@app.get(
+    "/healthz",
+    status_code=status.HTTP_200_OK,
+    tags=["Health Check"],
+    summary="Liveness Endpoint"
+)
+def liveness_check() -> Dict[str, str]:
+    """Lightweight health probe returning HTTP 200 without database or disk I/O operations."""
+    return {"status": "healthy"}
+
 # 2. Top 10 Monitored Demo Merchant Enum for Swagger Drop-Down Selection
 class DemoMerchantID(str, Enum):
     kaged = "kaged"
