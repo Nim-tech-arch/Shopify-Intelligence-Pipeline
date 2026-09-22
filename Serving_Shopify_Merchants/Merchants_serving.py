@@ -3,11 +3,13 @@ import re
 import logging
 import hmac
 import hashlib
+import math
 from enum import Enum
 from functools import lru_cache
 from typing import List, Optional, Dict, Any
 from pathlib import Path
 from fastapi import FastAPI, Header, HTTPException, Depends, status, Query
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 from pydantic import BaseModel, Field
 import pandas as pd
@@ -23,10 +25,28 @@ app = FastAPI(
     version="2.5.0"
 )
 
+# --- PRODUCTION CORS MIDDLEWARE CONFIGURATION ---
+ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "http://localhost:3000",
+    "https://ssip.aingadatalabs.com",
+    "https://aingadatalabs.com",
+    "https://www.aingadatalabs.com",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=ALLOWED_ORIGINS,
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_headers=["*"],
+)
+
 # Hard limit for public demo queries
 MAX_DEMO_RECORD_LIMIT = 20
 
-# --- LIVENESS PROBE (Requirement 1) ---
+# --- LIVENESS PROBE ---
 
 @app.get(
     "/healthz",
@@ -110,6 +130,14 @@ class GoldLakeStoreReader:
         return script_dir.parent if script_dir.name.lower() == "serving_shopify_merchants" else script_dir
 
     @classmethod
+    def sanitize_dataframe(cls, df: pd.DataFrame) -> pd.DataFrame:
+        """Sanitizes DataFrame to prevent JSON serialization errors with NaNs, Infs, and non-serializable objects."""
+        if df.empty:
+            return df
+        cleaned_df = df.fillna(0).replace([float('inf'), float('-inf')], 0)
+        return cleaned_df
+
+    @classmethod
     @lru_cache(maxsize=8)
     def load_master_gold_dataset(cls, file_path_str: str) -> pd.DataFrame:
         """Cached in-memory reader for master Gold Lake JSON to eliminate repeated disk I/O."""
@@ -117,8 +145,12 @@ class GoldLakeStoreReader:
         if not path.exists():
             return pd.DataFrame()
         logger.info(f"LOADING_MASTER_GOLD_LAKE_CACHE | path={path}")
-        df = pd.read_json(path)
-        return df.fillna(0).replace([float('inf'), float('-inf')], 0)
+        try:
+            df = pd.read_json(path)
+            return cls.sanitize_dataframe(df)
+        except Exception as err:
+            logger.error(f"FAILED_TO_LOAD_GOLD_JSON | path={path} err={err}")
+            return pd.DataFrame()
 
     @classmethod
     def read_enriched_products(cls, merchant_id: str, dataset_type: str, limit: int = 20) -> List[Dict[str, Any]]:
@@ -139,7 +171,7 @@ class GoldLakeStoreReader:
                 df = cls.load_master_gold_dataset(str(artifact_json))
             elif parquet_path.exists():
                 df = pd.read_parquet(parquet_path)
-                df = df.fillna(0).replace([float('inf'), float('-inf')], 0)
+                df = cls.sanitize_dataframe(df)
             elif master_gold_json.exists():
                 df = cls.load_master_gold_dataset(str(master_gold_json))
             else:
@@ -153,9 +185,9 @@ class GoldLakeStoreReader:
             clean_merchant = re.sub(r'[^a-zA-Z0-9]', '', merchant_id.lower())
             
             if any(col in df.columns for col in ["store_id", "vendor", "store_url"]):
-                store_id_series = df.get("store_id", pd.Series()).astype(str).str.lower().str.replace(r'[^a-zA-Z0-9]', '', regex=True)
-                vendor_series = df.get("vendor", pd.Series()).astype(str).str.lower().str.replace(r'[^a-zA-Z0-9]', '', regex=True)
-                store_url_series = df.get("store_url", pd.Series()).astype(str).str.lower().str.replace(r'[^a-zA-Z0-9]', '', regex=True)
+                store_id_series = df.get("store_id", pd.Series(dtype=str)).astype(str).str.lower().str.replace(r'[^a-zA-Z0-9]', '', regex=True)
+                vendor_series = df.get("vendor", pd.Series(dtype=str)).astype(str).str.lower().str.replace(r'[^a-zA-Z0-9]', '', regex=True)
+                store_url_series = df.get("store_url", pd.Series(dtype=str)).astype(str).str.lower().str.replace(r'[^a-zA-Z0-9]', '', regex=True)
 
                 mask = (
                     (store_id_series == clean_merchant) |
@@ -320,4 +352,4 @@ def get_brand_intelligence(
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("Merchants_serving:app", host="127.0.0.1", port=8000, reload=True)
+    uvicorn.run("Merchants_serving:app", host="0.0.0.0", port=8000, reload=True)
