@@ -1,139 +1,355 @@
+# Shopify Supplements Intelligence Pipeline (SSIP)
 
-                    **🚀 Supplement Brand Intelligence Engine (SBIE)**
+> **A domain-engineered data and intelligence pipeline for Shopify supplement, sports nutrition, and wellness brands.**
 
-End-to-End Market & Commercial Intelligence for Shopify Supplement Brands
-The Supplement Brand Intelligence Engine (SBIE) is a purpose-built commercial intelligence platform designed specifically for Direct-to-Consumer (DTC) Supplements, Sports Nutrition, and Wellness brands operating on Shopify.
+SSIP — **Shopify Supplements Intelligence Pipeline** — is a production-oriented data infrastructure and commercial intelligence system built for extracting, normalizing, enriching, and serving decision-ready intelligence from Shopify supplement storefronts and related market signals.
 
-Rather than treating e-commerce monitoring as a generic web-scraping task, SBIE solves the specific domain problems of the supplement industry: flavor and serving-size variant shifts, ingredient-level pricing compression, hidden promotional discounting, and uncoordinated ad spend bursts by competitors.
+SSIP is designed around a simple principle:
 
-**🎯 The Real Problem: Fragmented Intelligence in the Supplement Market**
-Supplement brands face hyper-competitive pressure with razor-thin margins. Legacy e-commerce tools track simple price tags, but completely fail to capture how supplement products are actually sold and bought.
+> **Do not collect e-commerce data merely because it is available. Collect and transform it because it answers a commercial question.**
 
-**Plaintext**
- Competitor Storefronts, Ad Platforms, & Market Signals
-                           │
-                           ▼
-   ❌ Legacy Scrapers & Generic E-Commerce Tools
-                           │
- ┌─────────────────────────┴─────────────────────────┐
- │ ❌ Misses Servings vs. Container Size Math        │
- │ ❌ Fails to Track Hidden Sub-and-Save Discounts   │
- │ ❌ Blind to Flavor/Variant Assortment Expansions  │
- │ ❌ No Context Between Price Drops & Paid Ad Drops │
- └─────────────────────────┬─────────────────────────┘
-                           ▼
- 💸 Reactive Merchandising, Wasted Ad Spend, & Margin Loss
-Critical Questions Generic Tools Fail to Answer:
-Cost-Per-Serving & Ingredient Arbitrage: "Did a competitor drop their Creatine price, or did they quietly reduce the tub from 60 servings to 45 servings while keeping the MSRP at $29.99?"
+The pipeline converts raw storefront observations and external market signals into structured intelligence covering pricing, inventory, discounts, product variants, customer sentiment, SEO visibility, paid advertising, social activity, geographic pricing, competitor similarity, and market trends.
 
-Stockout Conquesting: "Which key competitor SKUs (e.g., Grass-Fed Whey Isolate, Unflavored Electroytes) went out of stock today so we can immediately conquest their branded search ads?"
+---
 
-Flavor & Variant Expansion: "What new flavor variants or bundle configurations are top-performing brands launching and backing with heavy paid ad spend?"
+## 1. What SSIP Does
 
-Holistic Commercial Context: "Is a competitor's price drop backed by a massive Meta/TikTok creative blitz, declining customer sentiment around 'taste/clumping,' or an organic SEO push?"
+SSIP addresses the fragmentation that exists in supplement-market intelligence.
 
-🏗️ Domain-Engineered Architecture
-SBIE processes raw storefront signals, multi-domain supplement market data, and promotional activity into decision-ready business intelligence.
+Generic e-commerce monitoring can identify a price or product change, but supplement products require additional context:
 
-Plaintext
-                ┌────────────────────────────────────────┐
-                │   SHOPIFY STOREFRONTS & WEB SOURCES    │
-                │  (Nutritional, Active SKUs, Variants)  │
-                └───────────────────┬────────────────────┘
-                                    │
-                                    ▼
-                ┌────────────────────────────────────────┐
-                │          INGESTION & CAPTURE           │
-                │  Async Storefront API & Schema Normal  │
-                └───────────────────┬────────────────────┘
-                                    │
-                                    ▼
-                ┌────────────────────────────────────────┐
-                │     BRONZE LAKE — Audit & Provenance   │
-                │ Raw Storefront State & Historical Evidence │
-                └───────────────────┬────────────────────┘
-                                    │
-                                    ▼
-                ┌────────────────────────────────────────┐
-                │    SILVER LAKE — Supplement Canonical  │
-                │ Servings Normalization, SKU & Variant   │
-                │         Identity (SCD Type 2)          │
-                └───────────────────┬────────────────────┘
-                                    │
-                                    ▼
-┌───────────────────────────────────────────────────────────────────────┐
-│                    SUPPLEMENT ENRICHMENT ENGINE                       │
-│  Serving Economics │ Review Sentiment (Taste/Mixability) │ SEO Rank    │
-│  Paid Ad Velocity │ Social Reach & Influencer Volume   │ Geo Arbitrage│
-└──────────────────────────────────┬────────────────────────────────────┘
-                                    │
-                                    ▼
-                ┌────────────────────────────────────────┐
-                │     GOLD LAKE — Commercial Cubes       │
-                │  Price Drops, Stockout Opportunities,  │
-                │       Assortment Gap Analysis          │
-                └───────────────────┬────────────────────┘
-                                    │
-                                    ▼
-                ┌────────────────────────────────────────┐
-                │       MULTI-TENANT SERVING LAYER       │
-                │    FastAPI, Webhooks, Row Isolation    │
-                └────────────────────────────────────────┘
-💼 Core Intelligence Pipeline Breakdown
-🥉 1. Bronze Layer — Raw Market Provenance
-Captures and preserves raw, point-in-time storefront state. Ensures complete legal auditability and historical verification of competitor changes over time.
+* servings versus container size
+* price per serving
+* ingredient-level economics
+* flavor and variant changes
+* subscription and bundle structures
+* hidden promotional discounts
+* stock availability
+* review sentiment
+* paid advertising activity
+* organic search visibility
+* social and influencer activity
+* geographic pricing differences
+* competitive product similarity
 
-🥈 2. Silver Layer — Supplement Canonical Standard
-Transforms raw e-commerce schemas into a normalized data model built around supplement purchasing behavior.
+SSIP therefore operates as a layered intelligence pipeline:
 
-Serving & Size Normalization: Standardizes variants across serving counts, container weights (grams/lbs), and bundle packages.
+```text
+Shopify Storefronts
+       │
+       ▼
+┌──────────────────────┐
+│ Ingestion & Capture  │
+│ Async Storefront API │
+│ GraphQL / HTTP       │
+└──────────┬───────────┘
+           │
+           ▼
+┌──────────────────────┐
+│ Bronze Lake          │
+│ Raw Historical State │
+│ Provenance & Evidence│
+└──────────┬───────────┘
+           │
+           ▼
+┌──────────────────────┐
+│ Silver Lake          │
+│ Canonical Product    │
+│ Variant & SKU Model  │
+└──────────┬───────────┘
+           │
+           ▼
+┌────────────────────────────┐
+│ Supplement Enrichment      │
+│                            │
+│ Pricing                   │
+│ Reviews & Sentiment       │
+│ SEO                       │
+│ Paid Ads                  │
+│ Social                    │
+│ Geographic Arbitrage      │
+│ Brand Reputation          │
+│ Competitor Similarity     │
+│ Market Trends             │
+└──────────┬─────────────────┘
+           │
+           ▼
+┌──────────────────────┐
+│ Gold Lake            │
+│ Commercial Data      │
+│ Products             │
+└──────────┬───────────┘
+           │
+           ▼
+┌──────────────────────┐
+│ Multi-Tenant API     │
+│ FastAPI              │
+│ Authentication       │
+│ Tenant Isolation     │
+└──────────────────────┘
+```
 
-Longitudinal Tracking (SCD Type 2): Tracks price shifts, compare-at-price adjustments, and hidden unit-economic changes over time.
+---
 
-Data Contracts: Enforces clean separation between single products, multi-packs, and subscription variants.
+# 2. Intelligence Domains
 
-🧠 3. Supplement Market Enrichment Engine
-Enriches product-level observations with 8 essential commercial domains:
+SSIP currently organizes enrichment around the following commercial domains:
 
-Customer Reviews & Sentiment Analysis: Tracks review velocity and specific sentiment clusters critical to nutrition products ("taste," "mixability," "clumping," "stomach distress").
+### Pricing & Unit Economics
 
-Paid Ad Creative Velocity: Monitors active ad variations across Meta, TikTok, and Google, highlighting long-running, high-converting copy and creative concepts.
+Normalizes supplement pricing across:
 
-SEO & Search Intent: Evaluates organic performance for high-intent supplement keywords (e.g., "grass-fed whey isolate," "sugar-free electrolytes").
+* servings
+* container weights
+* variants
+* bundles
+* subscriptions
+* promotional prices
 
-Social & Influencer Volume: Measures brand cross-platform traction, viral social coefficients, and influencer channel reach.
+This enables analysis beyond the displayed MSRP.
 
-Geographical & Currency Arbitrage: Identifies cross-border pricing spreads (USD, GBP, EUR) for brands scaling international exports.
+### Inventory Intelligence
 
-Brand Reputation & Positioning: Benchmarks positioning against direct market tiers (e.g., Premium Clinical, Mass Market, Natural/Organic).
+Tracks product availability and stockout events that can represent competitive opportunities.
 
-Competitor Similarity Engine: Automatically maps substitute SKUs using vector similarity across formula positioning, ingredients, and target use-cases.
+### Discount Intelligence
 
-Macro Trend Velocities: Identifies broader category growth trends across emerging active ingredients and dietary callouts.
+Captures:
 
-🥇 4. Gold Layer — Actionable Business Data Products
-Exposes high-level data models optimized directly for brand operations:
+* sale pricing
+* promotional cadence
+* compare-at pricing
+* subscription discounts
+* gift-with-purchase signals
 
-pricing_opportunities/: Real-time price drops, margin shifts, and unit-economic changes.
+### Customer Review Intelligence
 
-inventory_intelligence/: Immediate stockout tracking to trigger targeted ad conquest campaigns.
+Extracts review-related signals including:
 
-discount_opportunities/: Promotional cadence, gift-with-purchase (GWP) tracking, and sale cycles.
+* review velocity
+* sentiment
+* recurring product feedback
+* taste
+* mixability
+* clumping
+* delivery
+* other domain-specific themes
 
-competitive_intelligence/: Comprehensive multi-signal brand scorecards.
+### SEO & Search Intelligence
 
-⚡ Multi-Tenant Serving API & Integration
-SBIE provides safe, role-based access to commercial intelligence via an asynchronous FastAPI serving layer with tenant isolation.
+Supports analysis of:
 
-🔑 Enterprise Security & Isolation
-Authentication: Header-based authorization (x-api-key) utilizing constant-time comparison routines to prevent timing exploits.
+* target keywords
+* search volume
+* search intent
+* organic ranking
+* organic visibility
 
-Strict Tenant Isolation: Data returned is scoped strictly by merchant_id and authorized store domains.
+### Paid Advertising Intelligence
 
-📸 Live Enriched Payload (Supplement Domain Example)
-Real-time response delivering canonical product metrics combined with ad intelligence, review sentiment, and organic search position:
+Tracks available signals around:
 
-JSON
+* active creative variations
+* advertising platforms
+* creative longevity
+* advertising velocity
+
+### Social & Influencer Intelligence
+
+Provides structured signals around:
+
+* social presence
+* follower reach
+* influencer activity
+* engagement volume
+
+### Geographic Arbitrage
+
+Supports cross-market pricing analysis across currencies and geographic markets.
+
+### Brand Intelligence
+
+Provides structured information about:
+
+* market positioning
+* category tier
+* brand characteristics
+* competitive positioning
+
+### Competitor Similarity
+
+Maps potentially substitutable products using product/formula/ingredient and use-case similarity.
+
+### Market Trends
+
+Tracks emerging category and ingredient-level market signals.
+
+---
+
+# 3. Architecture
+
+SSIP uses a Bronze → Silver → Enrichment → Gold → Serving architecture.
+
+## 3.1 Bronze — Raw Market Provenance
+
+The Bronze layer preserves point-in-time storefront observations.
+
+Its purpose is to retain the raw evidence from which downstream transformations are derived.
+
+Bronze data should preserve sufficient provenance to answer:
+
+> What did we observe, from which source, and when?
+
+The pipeline's provenance model distinguishes between:
+
+```text
+OBSERVED
+EXTERNAL
+SIMULATED
+```
+
+These classifications should remain visible throughout downstream processing.
+
+---
+
+## 3.2 Silver — Canonical Supplement Model
+
+The Silver layer transforms raw storefront structures into normalized supplement-market entities.
+
+Responsibilities include:
+
+* product normalization
+* variant normalization
+* SKU identity
+* serving normalization
+* container-size normalization
+* bundle separation
+* subscription separation
+* historical state tracking
+* price normalization
+
+SSIP uses longitudinal modeling to preserve changes in product and pricing state over time.
+
+---
+
+## 3.3 Supplement Enrichment Layer
+
+The enrichment layer combines canonical product records with additional commercial signals.
+
+Current enrichment domains include:
+
+```text
+pricing_enrichment/
+external_enrichment/
+├── customer_reviews/
+├── brand_reputation/
+├── seo_search/
+├── social_engagement/
+├── ad_intelligence/
+├── geographical_arbitrage/
+├── competitor_similarity/
+└── market_trends/
+```
+
+The enrichment layer should not overwrite the underlying observations.
+
+Enrichment results are derived intelligence and must remain distinguishable from source observations.
+
+---
+
+## 3.4 Gold — Commercial Data Products
+
+The Gold layer contains business-ready datasets.
+
+Current conceptual products include:
+
+```text
+pricing_opportunities/
+inventory_intelligence/
+discount_opportunities/
+competitive_intelligence/
+```
+
+Gold datasets are optimized for downstream applications, analytics, APIs, and decision-support workflows.
+
+---
+
+# 4. Multi-Tenant Serving API
+
+SSIP exposes selected intelligence through a FastAPI serving layer.
+
+The serving architecture provides:
+
+* tenant-aware access
+* API-key authentication
+* merchant scoping
+* store-domain authorization
+* structured JSON responses
+* webhook integration
+
+The current security model uses:
+
+```text
+x-api-key
+```
+
+with constant-time key comparison.
+
+Tenant access must remain scoped to the authorized:
+
+```text
+merchant_id
+store domain
+```
+
+A request must never be allowed to retrieve another tenant's data merely by modifying a request parameter.
+
+---
+
+# 5. API Contract
+
+The production API should be treated as a versioned contract.
+
+Recommended namespace:
+
+```text
+/api/v1/
+```
+
+The exact routes must correspond to the implementation in `app/main.py`.
+
+Before deployment, verify that the README and implementation agree on:
+
+* HTTP methods
+* endpoint paths
+* authentication requirements
+* query parameters
+* pagination
+* filtering
+* response models
+* error responses
+* tenant behavior
+* rate limits
+
+FastAPI automatically provides OpenAPI-based interactive API documentation when enabled.
+
+Expected documentation endpoints are typically:
+
+```text
+/docs
+/redoc
+/openapi.json
+```
+
+These should be verified against the deployed application rather than assumed.
+
+---
+
+# 6. Example Intelligence Response
+
+A representative SSIP response can contain canonical product information combined with commercial intelligence:
+
+```json
 {
   "merchant_id": "transparentlabs",
   "store_url": "https://www.transparentlabs.com",
@@ -148,97 +364,1080 @@ JSON
       "product_title": "ZMO",
       "variant_title": "30 Servings",
       "sku": "TL-017404",
+
       "sentiment_score_positive": 0.88,
       "sentiment_score_negative": 0.12,
+
       "review_widget_provider": "Judge.me",
+
       "top_review_keywords": [
         "taste",
         "energy",
         "fast delivery"
       ],
+
       "target_keyword": "grass-fed whey protein isolate",
       "monthly_search_volume": 8400,
       "organic_rank_position": 4,
       "search_intent": "TRANSACTIONAL",
       "organic_visibility_index": 78.5,
+
       "has_active_ads": true,
       "active_creative_count": 24,
+
       "ad_platforms": [
         "Meta",
         "TikTok",
         "Google Search"
       ],
+
       "longest_running_ad_days": 112,
+
       "brand_country_of_origin": "USA",
       "estimated_monthly_traffic": 250000,
       "market_segment": "PREMIUM_SPORTS_NUTRITION",
-      "social_links": {
-        "instagram": "https://instagram.com/transparentlabs",
-        "tiktok": "https://tiktok.com/@transparentlabs"
-      },
+
       "social_followers_total": 85000
     }
   ]
 }
-🔄 Real-Time Event Webhook Engine
-To convert insights into automated workflows (e.g., automatically adjusting Google Ad spend when a competitor goes out of stock), SBIE provides an event distribution engine:
+```
 
-HMAC-SHA256 Signatures: Cryptographically signed payloads (X-Webhook-Signature) verify sender authenticity.
+The values above represent the README's example payload. They should not be interpreted as guaranteed current production values.
 
-Automated Retries & Backoff: Retries failed webhook deliveries up to 5 times using exponential backoff with jitter.
+---
 
-Dead-Letter Queue (DLQ): Safely logs unserviceable delivery endpoints for operator review without dropping data.
+# 7. Webhook Event Engine
 
-Idempotency Safeguards: Every event payload carries a unique X-Idempotency-Key to prevent duplicated downstream actions.
+SSIP supports an event-delivery architecture for downstream automation.
 
-🛠️ Repository Layout
-Plaintext
+The webhook subsystem provides:
+
+### HMAC-SHA256 signatures
+
+Webhook payloads are signed so receiving systems can verify authenticity.
+
+### Retry and backoff
+
+Failed deliveries are retried using exponential backoff with jitter.
+
+### Dead-Letter Queue
+
+Events that cannot be successfully delivered are retained for operational review rather than silently discarded.
+
+### Idempotency
+
+Webhook events contain an idempotency identifier to protect downstream systems from duplicate processing.
+
+The implementation is located under:
+
+```text
+app/webhooks.py
+```
+
+---
+
+# 8. Repository Structure
+
+```text
 .
-├── Shopify-Supplements/              # Ingestion Engine
-│   ├── pipeline.py                   # End-to-end execution pipeline
-│   ├── engine.py                     # Async HTTP/2 storefront capture engine
-│   ├── graphql_client.py             # Shopify Storefront GraphQL handler
-│   ├── normalizer.py                 # Raw store response normalization
-│   ├── db_manager.py                 # Bronze Lake persistence engine
-│   └── silver_supplements_orchestrator.py # Bronze to Silver transformer
+├── Shopify-Supplements/
+│   ├── pipeline.py
+│   ├── engine.py
+│   ├── graphql_client.py
+│   ├── normalizer.py
+│   ├── db_manager.py
+│   └── silver_supplements_orchestrator.py
 │
-├── shopify_supplements_enrichment/   # Supplement Intelligence Engine
-│   ├── pricing_enrichment/           # Serving cost & margin calculations
-│   ├── external_enrichment/          # Multi-Domain Market Intelligence
-│   │   ├── customer_reviews/         # Taste, mixability & review extraction
-│   │   ├── brand_reputation/        # Category tiering & brand scoring
-│   │   ├── seo_search/               # Ingredient search volume & rank tracking
-│   │   ├── social_engagement/        # Influencer engagement metrics
-│   │   ├── ad_intelligence/          # Meta, TikTok & Google ad tracker
-│   │   ├── geographical_arbitrage/   # Global cross-border pricing spreads
-│   │   ├── competitor_similarity/    # Vector-based formula/SKU mapping
-│   │   └── market_trends/            # Category & ingredient growth trends
-│   ├── external_enricher.py          # Multi-domain orchestrator
-│   └── api_clients.py                # Intelligence gateway integration
+├── shopify_supplements_enrichment/
+│   ├── pricing_enrichment/
+│   ├── external_enrichment/
+│   │   ├── customer_reviews/
+│   │   ├── brand_reputation/
+│   │   ├── seo_search/
+│   │   ├── social_engagement/
+│   │   ├── ad_intelligence/
+│   │   ├── geographical_arbitrage/
+│   │   ├── competitor_similarity/
+│   │   └── market_trends/
+│   │
+│   ├── external_enricher.py
+│   └── api_clients.py
 │
-├── Gold_Lake/                        # Commercial Decision Storage
-│   └── Pricing_Intelligence/         # Business-ready Parquet analytical datasets
+├── Gold_Lake/
+│   └── Pricing_Intelligence/
 │
-├── app/                              # Commercial Serving Layer
-│   ├── main.py                       # FastAPI application & business routes
-│   ├── security.py                   # API key security & constant-time validation
-│   └── webhooks.py                   # HMAC signing, retry engine & DLQ
+├── app/
+│   ├── main.py
+│   ├── security.py
+│   └── webhooks.py
 │
 └── README.md
-🧭 Core Design Principles
-Merchant Decisions First: Every metric collected must answer an explicit commercial question around pricing, inventory conquesting, or product expansion.
+```
 
-Domain Context Over Raw Data: Raw price changes mean nothing without understanding variant size changes, active paid ad campaigns, and customer review sentiment.
+The repository structure should remain synchronized with the actual implementation.
 
-Strict Data Provenance: Every metric is clearly flagged with its origin source: OBSERVED (storefront observations), EXTERNAL (market APIs), or SIMULATED (fallback calculation engines).
+---
 
-Reliability & Data Quality: Focuses on clean deduplication, unit normalization, and verified business schema contracts rather than unvalidated raw volume.
+# 9. System Requirements
 
+Before deployment, verify the repository's dependency/configuration files for the authoritative runtime requirements.
 
-<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/1aa8cd56-009c-4864-90f9-cb2417bfcb9b" />
-<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/1bf8ff72-a6c1-4262-bc81-9276792f2c2f" />
-<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/f3c70472-b96a-4fe3-91d5-c14bdb43e4e9" />
-<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/491a4509-4123-4fb2-b62a-2936a5e8c151" />
-<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/6634e59f-1e14-4b3a-a514-43716ea54512" />
-<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/aa5104db-6bb9-4778-8579-f27a2995d04a" />
-<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/20fe8a89-9787-4f94-acb3-6790597a75c3" />
+At minimum, the production environment must provide:
+
+* supported Python runtime
+* dependency installation mechanism
+* persistent data storage appropriate for Bronze/Silver/Gold data
+* network access to required external services
+* secure environment-variable/secret configuration
+* production ASGI serving
+* HTTPS at the deployment boundary
+
+**Do not infer the Python version from this README.** The version declared by the repository's dependency/runtime configuration is authoritative.
+
+---
+
+# 10. Dependency Management
+
+Production dependencies must be declared in the repository's dependency manifest.
+
+Supported examples include:
+
+```text
+requirements.txt
+pyproject.toml
+uv.lock
+```
+
+Use the dependency mechanism actually present in the repository.
+
+Dependencies should be pinned or lock-resolved for reproducible deployments. FastAPI's own deployment documentation recommends pinning the FastAPI version used by a production application so it remains compatible with the rest of the system.
+
+Do not install undocumented packages manually on the production server.
+
+---
+
+# 11. Environment Configuration
+
+Production secrets must never be committed to Git.
+
+Create an example configuration file such as:
+
+```text
+.env.example
+```
+
+The actual variable names must match those implemented by the application.
+
+At minimum, document configuration categories for:
+
+```text
+Application environment
+API authentication
+Shopify credentials
+External enrichment services
+Storage/data paths
+Webhook signing
+CORS / allowed origins
+Logging
+```
+
+Example structure:
+
+```env
+APP_ENV=production
+
+API_KEY=<secret>
+
+# Shopify / external integrations
+# SHOPIFY_...
+# EXTERNAL_...
+
+# Storage
+# DATA_...
+
+# Webhooks
+# WEBHOOK_...
+```
+
+**Do not put real credentials in `.env.example`, README files, Git history, screenshots, or source code.**
+
+---
+
+# 12. Local Development
+
+Create the project environment using the dependency workflow defined by the repository.
+
+Example Python virtual environment workflow:
+
+```bash
+python -m venv .venv
+```
+
+Activate the environment using the command appropriate for the operating system.
+
+Then install the project's declared dependencies.
+
+For development, the FastAPI development server may be used with auto-reload.
+
+Do not use development auto-reload in production. FastAPI explicitly documents `--reload` as a development feature and warns against using it in production.
+
+---
+
+# 13. Running the Pipeline
+
+SSIP consists of multiple processing stages.
+
+The implementation should expose or document the authoritative commands for:
+
+```text
+1. Storefront ingestion
+2. Bronze persistence
+3. Bronze → Silver transformation
+4. External enrichment
+5. Gold generation
+6. API serving
+```
+
+The README intentionally does not invent these commands because the supplied source documents the modules but does not establish their exact CLI interfaces.
+
+Before deployment, the repository should expose one canonical documented execution path, for example:
+
+```bash
+# Ingestion
+<actual-command>
+
+# Silver transformation
+<actual-command>
+
+# Enrichment
+<actual-command>
+
+# Gold generation
+<actual-command>
+```
+
+Replace the placeholders with the commands implemented by the repository.
+
+---
+
+# 14. Production API Startup
+
+The production API must use a production ASGI server configuration.
+
+For FastAPI, the current official guidance uses `fastapi run` for production rather than `fastapi dev`.
+
+The exact SSIP entrypoint must match the repository implementation:
+
+```text
+app.main:app
+```
+
+if `app/main.py` exposes:
+
+```python
+app = FastAPI(...)
+```
+
+A representative production invocation is:
+
+```bash
+fastapi run app/main.py
+```
+
+or the repository's configured equivalent.
+
+Do **not** use:
+
+```bash
+fastapi dev
+```
+
+for production.
+
+If deployed behind a reverse proxy, HTTPS should be terminated at the appropriate infrastructure boundary. FastAPI's deployment documentation describes this as a standard production concern.
+
+---
+
+# 15. Container Deployment
+
+If SSIP is containerized, the production image should contain:
+
+```text
+Application code
+Production dependencies
+Runtime configuration interface
+ASGI server
+```
+
+A containerized deployment provides a reproducible environment and simplifies startup/restart behavior. FastAPI's deployment documentation specifically recommends containerization as a common production approach.
+
+The repository should provide:
+
+```text
+Dockerfile
+.dockerignore
+```
+
+and, if required:
+
+```text
+docker-compose.yml
+```
+
+or the deployment configuration appropriate to the selected infrastructure.
+
+The container must not contain:
+
+* API keys
+* Shopify credentials
+* webhook secrets
+* private tokens
+* developer-specific paths
+
+---
+
+# 16. Health Checks
+
+Production SSIP should expose a lightweight health endpoint.
+
+Recommended contract:
+
+```text
+GET /health
+```
+
+Example:
+
+```json
+{
+  "status": "ok"
+}
+```
+
+If the application requires external dependencies before it can serve traffic, a separate readiness endpoint is recommended:
+
+```text
+GET /ready
+```
+
+The distinction should be:
+
+```text
+/health
+    Process is alive.
+
+ /ready
+    Application is capable of serving production traffic.
+```
+
+The exact endpoints must be implemented before deployment if they do not already exist.
+
+---
+
+# 17. Authentication
+
+SSIP currently documents API-key authentication through:
+
+```text
+x-api-key
+```
+
+Keys must:
+
+* be stored outside source control
+* be compared using constant-time comparison
+* be rotatable
+* never appear in logs
+* never appear in error responses
+* never be embedded in frontend source code
+
+Production frontend applications should not receive privileged server-side credentials.
+
+For the eventual ADL API Demo, use a deliberately constrained public/demo access mechanism rather than exposing a production tenant API key.
+
+---
+
+# 18. Tenant Isolation
+
+Tenant isolation is a production security boundary.
+
+Every tenant-aware request must be evaluated against the authenticated tenant identity.
+
+The system must not trust:
+
+```text
+merchant_id
+store_url
+store_id
+```
+
+from a client request without authorization validation.
+
+The effective security model is:
+
+```text
+Authenticated API Key
+        │
+        ▼
+Authorized Tenant
+        │
+        ▼
+Authorized Store Domain
+        │
+        ▼
+Tenant-Scoped Dataset
+```
+
+Any test that demonstrates cross-tenant access is a release blocker.
+
+---
+
+# 19. Data Provenance
+
+SSIP distinguishes data according to provenance:
+
+```text
+OBSERVED
+EXTERNAL
+SIMULATED
+```
+
+This distinction must survive downstream transformations.
+
+Consumers must be able to distinguish:
+
+* direct storefront observations
+* externally sourced intelligence
+* calculated/simulated fallback values
+
+This is important for data trust and downstream decision-making.
+
+---
+
+# 20. Storage & Persistence
+
+SSIP uses:
+
+```text
+Bronze Lake
+Silver Lake
+Gold Lake
+```
+
+with Gold analytical datasets documented as Parquet-based data products.
+
+Production deployment must ensure that these datasets are stored on persistent storage rather than ephemeral container filesystems.
+
+The deployment documentation should explicitly define:
+
+```text
+Bronze storage location
+Silver storage location
+Gold storage location
+Backup location
+Retention policy
+Recovery procedure
+```
+
+These values must be defined by the production infrastructure before deployment.
+
+---
+
+# 21. Scheduling & Pipeline Operations
+
+A production SSIP installation requires an execution mechanism for recurring ingestion and enrichment.
+
+The scheduler may be:
+
+```text
+Cron
+Cloud Scheduler
+CI/CD scheduler
+Container scheduler
+Workflow orchestrator
+```
+
+The selected mechanism must be documented in the deployment configuration.
+
+The operational flow should remain:
+
+```text
+Schedule
+   ↓
+Ingestion
+   ↓
+Bronze
+   ↓
+Silver
+   ↓
+Enrichment
+   ↓
+Gold
+   ↓
+API consumers
+```
+
+The API should not depend on an interactive developer process to generate production data.
+
+---
+
+# 22. Testing
+
+Before production deployment, the repository should provide a repeatable test command.
+
+The production gate should cover at minimum:
+
+### Unit tests
+
+* normalization
+* pricing calculations
+* serving calculations
+* enrichment logic
+* validation
+
+### Integration tests
+
+* ingestion
+* storage
+* enrichment clients
+* Gold generation
+
+### API tests
+
+* authentication
+* authorization
+* tenant isolation
+* valid responses
+* invalid requests
+* error handling
+* webhook signatures
+* idempotency
+
+### Smoke test
+
+After deployment:
+
+```text
+Health endpoint
+        ↓
+Authenticated API request
+        ↓
+Known tenant
+        ↓
+Known dataset
+        ↓
+Expected response
+```
+
+---
+
+# 23. Security Requirements
+
+Production SSIP must enforce:
+
+* HTTPS
+* secure secret storage
+* API-key protection
+* constant-time credential comparison
+* tenant isolation
+* request validation
+* webhook signature verification
+* idempotency
+* controlled CORS
+* non-sensitive logging
+* dependency pinning
+* secure production configuration
+
+Never deploy with:
+
+```text
+DEBUG=true
+development credentials
+hard-coded secrets
+unrestricted CORS
+development reload
+```
+
+---
+
+# 24. Observability
+
+Production operation should provide sufficient visibility to answer:
+
+> What failed, when did it fail, which pipeline run was affected, and what data was produced?
+
+Recommended operational fields include:
+
+```text
+run_id
+crawl_id
+merchant_id
+store_url
+crawl_timestamp
+pipeline_stage
+status
+error_type
+duration
+record_count
+```
+
+Logs must not contain:
+
+* API keys
+* access tokens
+* webhook secrets
+* unnecessary personal data
+
+Pipeline failures should be observable independently from API failures.
+
+---
+
+# 25. Error Handling
+
+The API should return structured errors rather than leaking internal stack traces.
+
+At minimum, consumers should be able to distinguish:
+
+```text
+400 Bad Request
+401 Unauthorized
+403 Forbidden
+404 Not Found
+429 Too Many Requests
+500 Internal Server Error
+503 Service Unavailable
+```
+
+Internal exception details belong in controlled server logs, not production API responses.
+
+---
+
+# 26. API Versioning
+
+Production endpoints should be versioned.
+
+Recommended structure:
+
+```text
+/api/v1/...
+```
+
+Versioning allows the ADL frontend and future API consumers to remain stable while SSIP evolves.
+
+Breaking API changes should require a new API version rather than silently changing an existing contract.
+
+---
+
+# 27. Deployment Architecture
+
+A production SSIP deployment should conceptually look like:
+
+```text
+                  ┌─────────────────────┐
+                  │ Shopify / Web       │
+                  │ External Signals    │
+                  └──────────┬──────────┘
+                             │
+                             ▼
+                  ┌─────────────────────┐
+                  │ SSIP Ingestion      │
+                  └──────────┬──────────┘
+                             │
+                             ▼
+                  ┌─────────────────────┐
+                  │ Bronze Lake         │
+                  └──────────┬──────────┘
+                             │
+                             ▼
+                  ┌─────────────────────┐
+                  │ Silver Lake         │
+                  └──────────┬──────────┘
+                             │
+                             ▼
+                  ┌─────────────────────┐
+                  │ Enrichment Engine   │
+                  └──────────┬──────────┘
+                             │
+                             ▼
+                  ┌─────────────────────┐
+                  │ Gold Lake           │
+                  └──────────┬──────────┘
+                             │
+                             ▼
+                  ┌─────────────────────┐
+                  │ FastAPI Serving API │
+                  └──────────┬──────────┘
+                             │
+                   ┌─────────┴─────────┐
+                   ▼                   ▼
+             ADL Frontend         API Clients
+```
+
+The deployment infrastructure may change without changing this logical architecture.
+
+---
+
+# 28. Production Deployment Procedure
+
+Use the following sequence.
+
+## Step 1 — Validate the repository
+
+Confirm:
+
+```text
+[ ] Dependency manifest exists
+[ ] Lock/pinning strategy exists
+[ ] Application entrypoint exists
+[ ] Tests exist
+[ ] Configuration is externalized
+[ ] Secrets are absent from Git
+[ ] Data directories are defined
+```
+
+## Step 2 — Configure production secrets
+
+Configure all required environment variables using the deployment platform's secret-management mechanism.
+
+Never commit production `.env` files.
+
+## Step 3 — Build
+
+Build the production artifact/container from the repository.
+
+## Step 4 — Run tests
+
+Run the complete test suite.
+
+No production deployment should proceed if critical tests fail.
+
+## Step 5 — Initialize persistent storage
+
+Ensure Bronze, Silver, and Gold storage is available.
+
+## Step 6 — Start the API
+
+Start the FastAPI application using its production entrypoint.
+
+## Step 7 — Verify health
+
+```text
+GET /health
+```
+
+## Step 8 — Verify authentication
+
+Attempt:
+
+```text
+Unauthenticated request → rejected
+Valid authenticated request → accepted
+Invalid API key → rejected
+```
+
+## Step 9 — Verify tenant isolation
+
+Attempt to access another tenant's data.
+
+Expected result:
+
+```text
+Access denied
+```
+
+## Step 10 — Run a production smoke test
+
+Verify:
+
+```text
+Ingestion
+→ Bronze
+→ Silver
+→ Enrichment
+→ Gold
+→ API
+```
+
+## Step 11 — Verify monitoring
+
+Confirm logs and operational monitoring are receiving production events.
+
+## Step 12 — Release
+
+Only after the complete smoke test passes should the API be considered production-ready.
+
+---
+
+# 29. Troubleshooting
+
+## API does not start
+
+Check:
+
+```text
+Python/runtime version
+Dependency installation
+Environment variables
+Application import path
+Port configuration
+```
+
+## Authentication fails
+
+Check:
+
+```text
+x-api-key header
+Configured API key
+Secret formatting
+Environment loading
+```
+
+## No data returned
+
+Check:
+
+```text
+Merchant configuration
+Bronze data
+Silver transformation
+Enrichment status
+Gold dataset availability
+Tenant authorization
+```
+
+## Webhook delivery fails
+
+Check:
+
+```text
+Endpoint availability
+HMAC signature
+Retry status
+Idempotency key
+DLQ
+```
+
+## Data appears stale
+
+Check:
+
+```text
+Scheduler
+Pipeline execution
+Latest crawl_timestamp
+Pipeline run status
+Gold regeneration
+```
+
+---
+
+# 30. Production Deployment Checklist
+
+Before declaring SSIP production-ready:
+
+### Repository
+
+* [ ] README synchronized with implementation
+* [ ] Dependency manifest present
+* [ ] Dependencies pinned/locked
+* [ ] `.gitignore` configured
+* [ ] `.env.example` present
+* [ ] No secrets committed
+
+### Application
+
+* [ ] FastAPI production entrypoint verified
+* [ ] Development reload disabled
+* [ ] Production environment configured
+* [ ] CORS restricted
+* [ ] API versioning implemented
+* [ ] Health endpoint implemented
+
+### Security
+
+* [ ] API authentication tested
+* [ ] Constant-time API-key validation verified
+* [ ] Tenant isolation tested
+* [ ] Secrets stored securely
+* [ ] HTTPS enabled
+* [ ] Webhook signatures verified
+* [ ] Idempotency tested
+
+### Data
+
+* [ ] Bronze persistence verified
+* [ ] Silver transformation verified
+* [ ] Gold datasets generated
+* [ ] Provenance fields preserved
+* [ ] Persistent storage configured
+* [ ] Backup/recovery strategy defined
+
+### Pipeline
+
+* [ ] Ingestion tested
+* [ ] Enrichment tested
+* [ ] Gold generation tested
+* [ ] Scheduling configured
+* [ ] Failure handling verified
+
+### API
+
+* [ ] OpenAPI documentation verified
+* [ ] Authentication documented
+* [ ] Tenant behavior verified
+* [ ] Error responses verified
+* [ ] Response schemas verified
+* [ ] API smoke test passed
+
+### Operations
+
+* [ ] Logging enabled
+* [ ] Pipeline failures observable
+* [ ] API failures observable
+* [ ] Run IDs available
+* [ ] DLQ operational
+* [ ] Restart behavior verified
+
+### Release
+
+* [ ] Full test suite passes
+* [ ] Production build succeeds
+* [ ] Health check succeeds
+* [ ] Authenticated request succeeds
+* [ ] Unauthorized request fails
+* [ ] Tenant isolation test passes
+* [ ] End-to-end pipeline smoke test passes
+
+---
+
+# 31. Design Principles
+
+### Merchant Decisions First
+
+Every metric should answer an explicit commercial question.
+
+### Domain Context Over Raw Data
+
+A price change is not necessarily a commercial price change if servings, container size, bundles, or subscription terms also changed.
+
+### Strict Data Provenance
+
+Every intelligence signal should retain its origin:
+
+```text
+OBSERVED
+EXTERNAL
+SIMULATED
+```
+
+### Reliability & Data Quality
+
+SSIP prioritizes:
+
+* deterministic transformations
+* deduplication
+* normalization
+* schema contracts
+* provenance
+* historical preservation
+
+over unvalidated data volume.
+
+### Separation of Concerns
+
+The system maintains a clear separation between:
+
+```text
+Ingestion
+    ↓
+Normalization
+    ↓
+Enrichment
+    ↓
+Decision Data
+    ↓
+Serving
+```
+
+This allows individual layers to evolve without coupling the entire system.
+
+---
+
+# 32. Relationship to Ainga Data Labs
+
+SSIP is a data intelligence subsystem within **Ainga Data Labs (ADL)**.
+
+Its responsibility is to transform Shopify supplement-market observations into structured intelligence that can be consumed by:
+
+```text
+ADL internal systems
+ADL API products
+ADL frontend experiences
+API clients
+Commercial intelligence workflows
+```
+
+The SSIP backend should therefore be treated as an independently deployable data product and API service rather than as frontend infrastructure.
+
+The ADL frontend should consume **stable, documented API contracts** rather than directly accessing Bronze, Silver, or Gold storage.
+
+---
+
+# 33. Production Boundary
+
+The intended production boundary is:
+
+```text
+                 SSIP
+┌───────────────────────────────────────┐
+│                                       │
+│  Ingestion                            │
+│       ↓                               │
+│  Bronze                               │
+│       ↓                               │
+│  Silver                               │
+│       ↓                               │
+│  Enrichment                           │
+│       ↓                               │
+│  Gold                                 │
+│       ↓                               │
+│  FastAPI Serving Layer                │
+│                                       │
+└──────────────────┬────────────────────┘
+                   │
+                   │ Versioned API
+                   ▼
+              ADL Frontend
+```
+
+The frontend is a consumer of SSIP.
+
+It is not responsible for pipeline execution, raw-data storage, enrichment, or tenant-level data processing.
+
+---
+
+# 34. Current Status
+
+SSIP contains the core architecture for:
+
+* Shopify storefront ingestion
+* Bronze persistence
+* Silver normalization
+* supplement-specific enrichment
+* Gold commercial datasets
+* multi-tenant FastAPI serving
+* API-key authentication
+* webhook processing
+* provenance-aware intelligence
+
+Production deployment is complete only after the operational requirements in this README have been implemented and verified against the actual repository.
+
+---
+
+## Maintainer
+
+**Ainga Data Labs**
+
+Shopify Supplements Intelligence Pipeline (SSIP)
