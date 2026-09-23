@@ -8,6 +8,8 @@ on:
 jobs:
   run-pipeline:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # Explicitly grants push/write permissions to GITHUB_TOKEN
 
     steps:
       - name: Checkout Repository
