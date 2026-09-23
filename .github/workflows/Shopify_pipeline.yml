@@ -17,7 +17,6 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-          # Removed 'cache: 'pip'' since there is no requirements.txt file
 
       - name: Install Dependencies
         run: |
@@ -26,7 +25,7 @@ jobs:
 
       - name: Execute Pipeline
         run: |
-          python Shopify_supplements_enrichment/External_enrichment/external_enricher.py
+          python Shopify_supplements_enrichment/external_enrichment/external_enricher.py
 
       - name: Commit & Push SQLite Database Changes
         env:
